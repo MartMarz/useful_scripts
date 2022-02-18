@@ -64,9 +64,10 @@ for counter,event in enumerate(events):
     print(" ")
     for i,p in enumerate(pruned) :
         print("#{}   PdgId : {}   pt : {:.2f}  eta : {:.2f}   phi : {:.2f}   m : {:.2f} e: {:.2f} px: {:.2f} py: {:.2f} pz: {:.2f} status: {}".format(i,p.pdgId(),p.pt(),p.eta(),p.phi(),p.mass(),p.energy(),p.px(),p.py(),p.pz(),p.status()))
-        #mothers = FindAllMothers(p)
-        #print("mothers")
-        #print(mothers)
+        if p.pdgId()== -5:
+            mothers = FindAllMothers(p)
+            print("mothers")
+            print(mothers)
         #print("daughters")
         #for pa in packed:
             #mother = pa.mother(0)
