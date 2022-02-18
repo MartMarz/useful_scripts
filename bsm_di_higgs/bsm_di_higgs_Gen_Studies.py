@@ -138,17 +138,17 @@ for masspoints in infos:
     smHiggs_pt = ROOT.TH1F("SMHiggs_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
     smHiggs_pt.GetXaxis().SetTitle("SM Higgs p_{T}[GeV]")
 
-    antiTau_pt = ROOT.TH1F("antiTau_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
-    antiTau_pt.GetXaxis().SetTitle("Tau1 p_{T}[GeV]")
+    antitau_pt = ROOT.TH1F("antitau_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
+    antitau_pt.GetXaxis().SetTitle("antitau p_{T}[GeV]")
 
-    Tau_pt = ROOT.TH1F("Tau_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
-    Tau_pt.GetXaxis().SetTitle("Tau2 p_{T}[GeV]")
+    tau_pt = ROOT.TH1F("tau_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
+    tau_pt.GetXaxis().SetTitle("Tau p_{T}[GeV]")
 
     antibquark_pt =ROOT.TH1F("antibquark_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
-    antibquark_pt.GetXaxis().SetTitle("Bottom Quark 1 p_{T}[GeV]")
+    antibquark_pt.GetXaxis().SetTitle("Anti Bottom Quark  p_{T}[GeV]")
 
     bquark_pt =ROOT.TH1F("bquark_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
-    bquark_pt.GetXaxis().SetTitle("Bottom Quark 2 p_{T}[GeV]")
+    bquark_pt.GetXaxis().SetTitle("Bottom Quark p_{T}[GeV]")
 
     higgs_dR =ROOT.TH1F("higgs_dR"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,6)
     higgs_dR.GetXaxis().SetTitle("#Delta R(h_{SM}h)")
@@ -252,8 +252,8 @@ for masspoints in infos:
 
     bquark_pt.Scale(1./bquark_pt.Integral())
     antibquark_pt.Scale(1./antibquark_pt.Integral())
-    Tau_pt.Scale(1./bquark_pt.Integral())
-    antiTau_pt.Scale(1./Tau_pt.Integral())
+    tau_pt.Scale(1./tau_pt.Integral())
+    antitau_pt.Scale(1./antitau_pt.Integral())
     heavyHiggs_pt.Scale(1./heavyHiggs_pt.Integral())
     lightHiggs_pt.Scale(1./lightHiggs_pt.Integral())
     smHiggs_pt.Scale(1./smHiggs_pt.Integral())
@@ -264,8 +264,8 @@ for masspoints in infos:
     output_file = ROOT.TFile.Open(outpath+"/"+"GenStudies_"+"MH_"+mH+"_Mh_"+mh+".root","RECREATE")
     output_file.WriteTObject(bquark_pt)
     output_file.WriteTObject(antibquark_pt)
-    output_file.WriteTObject(Tau_pt)
-    output_file.WriteTObject(antiTau_pt)
+    output_file.WriteTObject(tau_pt)
+    output_file.WriteTObject(antitau_pt)
     output_file.WriteTObject(heavyHiggs_pt)
     output_file.WriteTObject(lightHiggs_pt)
     output_file.WriteTObject(smHiggs_pt)
