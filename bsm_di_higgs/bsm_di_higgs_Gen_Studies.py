@@ -3,6 +3,7 @@ from optparse import OptionParser
 from math import *
 import os
 import sys
+import numpy as np
 
 usage = "Usage: %prog [options] input_file.root\n"
 parser = OptionParser(usage=usage)
@@ -30,7 +31,7 @@ for n in range(50):
         print ("made dir: ", outpath)
         break
     else:
-        outpath = outpath + "_{}".format(n)
+        outpath = opts.outDir + "_{}".format(n)
 
 import ROOT
 from DataFormats.FWLite import Events, Handle
@@ -74,6 +75,16 @@ def find_masses(dataset_name):
     # print("MH="+number_1+" Mh="+number_2)
     return number_1,number_2
 
+def Scale3DHisto(histname,nxbins,nybins,nzbins):
+    for x in range(1,nxbins+1):
+        for y in range(1,nybins+1):
+            integral=0
+            for z in range(1,nzbins+1):
+                integral+= histname.GetBinContent(x,y,z)
+            for newz in range(1,nzbins+1):
+                if integral !=0:
+                    histname.SetBinContent(x,y,newz,(histname.GetBinContent(x,y,newz)/integral))
+
 max_events = int(opts.maxevents)
 
 infos = [] 
@@ -86,18 +97,94 @@ for (dirpath, dirnames, filenames) in os.walk(args[0]):
                     files.append(fil)
             infos.append([args[0]+dir+"/",find_masses(dir),files]) #save array with directory to trees, masses and trees
 
-# # 2D and 3D Histogramms over all mass points
-# dr_median_hsm_h_MH = ROOT.TH3F("Median_DeltaR_b_q_qbar_Top_Pt","",20,0,2000,20,0,6)
-# dr_median_hsm_h_MH.GetXaxis().SetTitle("Median #Delta R(h_{SM}h)")
-# dr_median_hsm_h_MH.GetYaxis().SetTitle("Heavy Higgs Mass")
-# dr_median_hsm_h_MH.GetZaxis().SetTitle("Arbitrary units")
+HHedges =np.array([200.])
+LHedges = np.array([35.])
+HHbins = 0
+LHbins = 0
+for masses in infos:
+    mH = float(masses[1][0])+1.
+    mh = float(masses[1][1])+1.
 
-# dr_max_b_q_qbar_top_pt = ROOT.TH2F("Max_DeltaR_b_q_qbar_Top_Pt","",20,0,2000,20,0,6)
-# dr_max_b_q_qbar_top_pt.GetXaxis().SetTitle("Top Quark/Antiquark p_{T}[GeV]")
-# dr_max_b_q_qbar_top_pt.GetYaxis().SetTitle("Maximum #Delta R(b/#bar{b},q,#bar{q'})")
-# dr_max_b_q_qbar_top_pt.GetZaxis().SetTitle("Arbitrary units")
+    HHalreadysafed=False
+    for safedHH in HHedges:
+        if mH==safedHH:
+            HHalreadysafed=True
+            break
 
+    LHalreadysafed=False
+    for safedLH in LHedges:
+        if mh==safedLH:
+            LHalreadysafed=True
+            break
+    
+    if not HHalreadysafed:
+        HHedges=np.append(HHedges, mH)
+        HHbins+=1
+    if not LHalreadysafed:
+        LHedges=np.append(LHedges, mh)
+        LHbins+=1
+        
+dRbins=20
+dRmax=6
+dRedges=np.array([0.])
+for n in range(1, dRbins+1):
+    dRedges=np.append(dRedges, n*(float(dRmax)/float(dRbins)))
+
+pTbins=20
+pTmax=2000
+pTedges=np.array([0.])
+for n in range(1, pTbins+1):
+    pTedges = np.append(pTedges, n*(float(pTmax)/float(pTbins)))
+
+
+HHedges=np.sort(HHedges)
+LHedges=np.sort(LHedges)
+print(HHedges, HHbins, LHedges, LHbins, dRedges, dRbins, pTedges, pTbins)
+
+# 2D and 3D Histogramms over all mass points
+drbb_mh_MH = ROOT.TH3F("DeltaR_b_bbar","#Delta R(b/#bar{b})",LHbins,LHedges,HHbins,HHedges,dRbins,dRedges)
+drbb_mh_MH.GetYaxis().SetTitle("Heavy Higgs Mass")
+drbb_mh_MH.GetXaxis().SetTitle("Light Higgs Mass")
+drbb_mh_MH.GetZaxis().SetTitle("#Delta R(b/#bar{b})")
+# drbb_mh_MH.GetWaxis().SetTitle("Arbitrary units")
+
+drtt_mh_MH = ROOT.TH3F("DeltaR_tau_tau","#Delta R(tau tau)",LHbins,LHedges,HHbins,HHedges,dRbins,dRedges)
+drtt_mh_MH.GetYaxis().SetTitle("Heavy Higgs Mass")
+drtt_mh_MH.GetXaxis().SetTitle("Light Higgs Mass")
+drtt_mh_MH.GetZaxis().SetTitle("#Delta R(tau tau)")
+# drbb_mh_MH.GetWaxis().SetTitle("Arbitrary units")
+
+drhh_mh_MH = ROOT.TH3F("DeltaR_h_hSM","#Delta R(h_{SM}h)",LHbins,LHedges,HHbins,HHedges,dRbins,dRedges)
+drhh_mh_MH.GetYaxis().SetTitle("Heavy Higgs Mass")
+drhh_mh_MH.GetXaxis().SetTitle("Light Higgs Mass")
+drhh_mh_MH.GetZaxis().SetTitle("#Delta R(h_{SM}h)")
+# drbb_mh_MH.GetWaxis().SetTitle("Arbitrary units")
+
+ptHH_mh_MH = ROOT.TH3F("HeavyHiggs_pt","Heavy Higgs p_{T}",LHbins,LHedges,HHbins,HHedges,pTbins,pTedges)
+ptHH_mh_MH.GetYaxis().SetTitle("Heavy Higgs Mass")
+ptHH_mh_MH.GetXaxis().SetTitle("Light Higgs Mass")
+ptHH_mh_MH.GetZaxis().SetTitle("Heavy Higgs p_{T}[GeV]")
+# drbb_mh_MH.GetWaxis().SetTitle("Arbitrary units")
+
+ptLH_mh_MH = ROOT.TH3F("LightHiggs_pt","Light Higgs p_{T}",LHbins,LHedges,HHbins,HHedges,pTbins,pTedges)
+ptLH_mh_MH.GetYaxis().SetTitle("Heavy Higgs Mass")
+ptLH_mh_MH.GetXaxis().SetTitle("Light Higgs Mass")
+ptLH_mh_MH.GetZaxis().SetTitle("Light Higgs p_{T}[GeV]")
+# drbb_mh_MH.GetWaxis().SetTitle("Arbitrary units")
+
+ptSMH_mh_MH = ROOT.TH3F("SMHiggs_pt","SM Higgs p_{T}",LHbins,LHedges,HHbins,HHedges,pTbins,pTedges)
+ptSMH_mh_MH.GetYaxis().SetTitle("Heavy Higgs Mass")
+ptSMH_mh_MH.GetXaxis().SetTitle("Light Higgs Mass")
+ptSMH_mh_MH.GetZaxis().SetTitle("SM Higgs p_{T}[GeV]")
+# drbb_mh_MH.GetWaxis().SetTitle("Arbitrary units")
+
+masspointcounter=0
 for masspoints in infos:
+
+    # if masspointcounter==7:
+    #     break
+    # masspointcounter+=1
+
     directoryName = masspoints[0]
     mH = masspoints[1][0]
     mh = masspoints[1][1]
@@ -139,13 +226,13 @@ for masspoints in infos:
     smHiggs_pt.GetXaxis().SetTitle("SM Higgs p_{T}[GeV]")
 
     antitau_pt = ROOT.TH1F("antitau_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
-    antitau_pt.GetXaxis().SetTitle("antitau p_{T}[GeV]")
+    antitau_pt.GetXaxis().SetTitle("Anti Tau p_{T}[GeV]")
 
     tau_pt = ROOT.TH1F("tau_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
     tau_pt.GetXaxis().SetTitle("Tau p_{T}[GeV]")
 
     antibquark_pt =ROOT.TH1F("antibquark_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
-    antibquark_pt.GetXaxis().SetTitle("Anti Bottom Quark  p_{T}[GeV]")
+    antibquark_pt.GetXaxis().SetTitle("Anti Bottom Quark p_{T}[GeV]")
 
     bquark_pt =ROOT.TH1F("bquark_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
     bquark_pt.GetXaxis().SetTitle("Bottom Quark p_{T}[GeV]")
@@ -235,8 +322,8 @@ for masspoints in infos:
             if everything_found:
                 bquark_pt.Fill(bottom_p4.pt(),weight)
                 antibquark_pt.Fill(antibottom_p4.pt(),weight)
-                Tau_pt.Fill(tau_p4.pt(),weight)
-                antiTau_pt.Fill(antitau_p4.pt(),weight)
+                tau_pt.Fill(tau_p4.pt(),weight)
+                antitau_pt.Fill(antitau_p4.pt(),weight)
                 heavyHiggs_pt.Fill(HeavyHiggs_p4.pt(),weight)
                 lightHiggs_pt.Fill(LightHiggs_p4.pt(),weight)
                 smHiggs_pt.Fill(SMHiggs_p4.pt(),weight)
@@ -247,6 +334,13 @@ for masspoints in infos:
                 tau_dR.Fill(dR_tau_tau,weight)
                 dR_hsm_h = sqrt(ROOT.Math.VectorUtil.DeltaR2(SMHiggs_p4, LightHiggs_p4))
                 higgs_dR.Fill(dR_hsm_h,weight)
+
+                drbb_mh_MH.Fill(int(mh),int(mH),dR_b_b,weight)
+                drtt_mh_MH.Fill(int(mh),int(mH),dR_tau_tau,weight)
+                drhh_mh_MH.Fill(int(mh),int(mH),dR_hsm_h,weight)
+                ptHH_mh_MH.Fill(int(mh),int(mH),HeavyHiggs_p4.pt(),weight)
+                ptLH_mh_MH.Fill(int(mh),int(mH),LightHiggs_p4.pt(),weight)
+                ptSMH_mh_MH.Fill(int(mh),int(mH),SMHiggs_p4.pt(),weight)
             else:
                 continue
 
@@ -273,3 +367,19 @@ for masspoints in infos:
     output_file.WriteTObject(tau_dR)
     output_file.WriteTObject(bquark_dR)
     output_file.Close()
+
+Scale3DHisto(drbb_mh_MH,LHbins,HHbins,dRbins)
+Scale3DHisto(drtt_mh_MH,LHbins,HHbins,dRbins)  
+Scale3DHisto(drhh_mh_MH,LHbins,HHbins,dRbins)  
+Scale3DHisto(ptHH_mh_MH,LHbins,HHbins,pTbins)  
+Scale3DHisto(ptLH_mh_MH,LHbins,HHbins,pTbins)  
+Scale3DHisto(ptSMH_mh_MH,LHbins,HHbins,pTbins)        
+output_file = ROOT.TFile.Open(outpath+"/"+"GenStudies_"+"3D_histo.root","RECREATE")
+output_file.WriteTObject(drbb_mh_MH)
+output_file.WriteTObject(drtt_mh_MH)
+output_file.WriteTObject(drhh_mh_MH)
+output_file.WriteTObject(ptHH_mh_MH)
+output_file.WriteTObject(ptLH_mh_MH)
+output_file.WriteTObject(ptSMH_mh_MH)
+output_file.Close()
+
