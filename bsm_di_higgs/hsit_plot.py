@@ -5,6 +5,8 @@ import os
 import sys
 import numpy as np
 
+
+
 usage = "Usage: %prog [options] input_file.root\n"
 parser = OptionParser(usage=usage)
 
@@ -20,6 +22,9 @@ from DataFormats.FWLite import Events, Handle
 import Utilities.General.cmssw_das_client as das_client
 
 ROOT.gStyle.SetOptStat(0)
+ROOT.gStyle.SetPadLeftMargin(0.11)
+ROOT.gStyle.SetPadBottomMargin(0.12)
+ROOT.gStyle.SetPalette(ROOT.kBird)
 
 def find_masses(dataset_name):
     index_1 = dataset_name.find("_MH_")
@@ -41,7 +46,9 @@ def filename(MH1,mh1,MH2,mh2,MH3,mh3,folder):
     return (folder+"_H1_"+MH1+"_"+"h1_"+mh1+"_"+"H2_"+MH2+"_"+"h2_"+mh2+"_"+"H3_"+MH3+"_"+"h3_"+mh3)
 
 def plottHisto(hist1,hist2,hist3,file,mass):
-    canvas = ROOT.TCanvas("canvas")
+    ROOT.gStyle.SetPadRightMargin(0.05)
+
+    canvas = ROOT.TCanvas("canvas","canvas",980,720)
     canvas.cd()
 
     hist1.SetTitle("")
@@ -55,17 +62,21 @@ def plottHisto(hist1,hist2,hist3,file,mass):
 
     hist1.SetMaximum(maximum+0.1)
 
+    hist1.SetTitleOffset(1.25,"X")   
+
     hist1.SetLineColor(ROOT.kRed)
-    hist1.SetLineWidth(2)
+    hist1.SetLineWidth(3)
     hist1.GetYaxis().SetTitle("Arbitrary Units")
     hist2.SetLineColor(ROOT.kBlue)
-    hist2.SetLineWidth(2)
+    hist2.SetLineWidth(3)
     hist3.SetLineColor(ROOT.kGreen+2)
-    hist3.SetLineWidth(2)
+    hist3.SetLineWidth(3)
 
     hist1.Draw("hist")
     hist2.Draw("hist,same")
     hist3.Draw("hist,same")
+
+    canvas.RedrawAxis("g")
 
     tt_bla = ROOT.TText()
     tt_bla.SetTextFont(63)
@@ -76,10 +87,10 @@ def plottHisto(hist1,hist2,hist3,file,mass):
     tt_wip.SetTextSizePixels(30)
     tt_wip = tt_wip.DrawTextNDC(0.1, 0.91, "work in progress")
 
-    legend = ROOT.TLegend (0.7 ,0.6 ,0.85 ,0.75)
-    legend.AddEntry(hist1,"M_{H}="+mass[0][0]+", m_{h}="+mass[0][1])
-    legend.AddEntry(hist2,"M_{H}="+mass[1][0]+", m_{h}="+mass[1][1])
-    legend.AddEntry(hist3,"M_{H}="+mass[2][0]+", m_{h}="+mass[2][1])
+    legend = ROOT.TLegend (0.65 ,0.65 ,0.95 ,0.9)
+    legend.AddEntry(hist3,"M_{H}="+mass[2][0]+"GeV"+", m_{h}="+mass[2][1]+"GeV")
+    legend.AddEntry(hist2,"M_{H}="+mass[1][0]+"GeV"+", m_{h}="+mass[1][1]+"GeV")
+    legend.AddEntry(hist1,"M_{H}="+mass[0][0]+"GeV"+", m_{h}="+mass[0][1]+"GeV")
     legend.SetLineWidth (2)
     legend.Draw("same")
 
@@ -87,12 +98,35 @@ def plottHisto(hist1,hist2,hist3,file,mass):
     canvas.Clear()
 
 def plot3DHisto(hist,file):
-    canvas = ROOT.TCanvas("canvas")
+    ROOT.gStyle.SetPadRightMargin(0.15)
+    ROOT.gStyle.SetPadLeftMargin(0.13)
+
+    canvas = ROOT.TCanvas("canvas","canvas",980,720)
     canvas.cd()
 
     hist.SetTitle("")
     
+    hist.SetMinimum(0.2)
+
     hist.Draw("BOX2 Z")
+    hist.SetTitleOffset(1.75,"X") 
+    hist.SetTitleOffset(2.25,"Y")
+    hist.SetTitleOffset(1.75,"Z")
+    hist.SetXTitle("Light Higgs Mass [GeV]")
+    hist.SetYTitle("Heavy Higgs Mass [GeV]")
+    ROOT.gPad.Modified()
+    ROOT.gPad.Update()
+
+    palette=hist.GetListOfFunctions().FindObject("palette")
+    palette.SetX1NDC(0.89)
+    palette.SetX2NDC(0.93)
+    palette.SetY1NDC(0.1)
+    palette.SetY2NDC(0.9)
+    palette.GetAxis().SetTitle("Arbitrary Units")
+    palette.GetAxis().SetTitleOffset(-1)
+    canvas.Modified()
+    canvas.Update()
+    
    
     tt_bla = ROOT.TText()
     tt_bla.SetTextFont(63)
