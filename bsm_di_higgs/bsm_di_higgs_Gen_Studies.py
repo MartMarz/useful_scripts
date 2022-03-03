@@ -124,13 +124,13 @@ for masses in infos:
         LHedges=np.append(LHedges, mh)
         LHbins+=1
         
-dRbins=20
+dRbins=10
 dRmax=6
 dRedges=np.array([0.])
 for n in range(1, dRbins+1):
     dRedges=np.append(dRedges, n*(float(dRmax)/float(dRbins)))
 
-pTbins=20
+pTbins=10
 pTmax=2000
 pTedges=np.array([0.])
 for n in range(1, pTbins+1):
@@ -141,7 +141,7 @@ HHedges=np.sort(HHedges)
 LHedges=np.sort(LHedges)
 print(HHedges, HHbins, LHedges, LHbins, dRedges, dRbins, pTedges, pTbins)
 
-# 2D and 3D Histogramms over all mass points
+# 3D Histogramms over all mass points
 drbb_mh_MH = ROOT.TH3F("DeltaR_b_bbar","#Delta R(b/#bar{b})",LHbins,LHedges,HHbins,HHedges,dRbins,dRedges)
 drbb_mh_MH.GetYaxis().SetTitle("Heavy Higgs Mass")
 drbb_mh_MH.GetXaxis().SetTitle("Light Higgs Mass")
@@ -216,34 +216,34 @@ for masspoints in infos:
     #labelLHE = "externalLHEProducer"
 
     # Histogramms for each seperate mass point
-    heavyHiggs_pt = ROOT.TH1F("HeavyHiggs_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
+    heavyHiggs_pt = ROOT.TH1F("HeavyHiggs_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,pTbins,0,2000)
     heavyHiggs_pt.GetXaxis().SetTitle("Heavy Higgs p_{T}[GeV]")
 
-    lightHiggs_pt = ROOT.TH1F("LightHiggs_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
+    lightHiggs_pt = ROOT.TH1F("LightHiggs_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,pTbins,0,2000)
     lightHiggs_pt.GetXaxis().SetTitle("Light Higgs p_{T}[GeV]")
 
-    smHiggs_pt = ROOT.TH1F("SMHiggs_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
+    smHiggs_pt = ROOT.TH1F("SMHiggs_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,pTbins,0,2000)
     smHiggs_pt.GetXaxis().SetTitle("SM Higgs p_{T}[GeV]")
 
-    antitau_pt = ROOT.TH1F("antitau_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
+    antitau_pt = ROOT.TH1F("antitau_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,pTbins,0,2000)
     antitau_pt.GetXaxis().SetTitle("Anti Tau p_{T}[GeV]")
 
-    tau_pt = ROOT.TH1F("tau_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
+    tau_pt = ROOT.TH1F("tau_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,pTbins,0,2000)
     tau_pt.GetXaxis().SetTitle("Tau p_{T}[GeV]")
 
-    antibquark_pt =ROOT.TH1F("antibquark_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
+    antibquark_pt =ROOT.TH1F("antibquark_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,pTbins,0,2000)
     antibquark_pt.GetXaxis().SetTitle("Anti Bottom Quark p_{T}[GeV]")
 
-    bquark_pt =ROOT.TH1F("bquark_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,2000)
+    bquark_pt =ROOT.TH1F("bquark_pt"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,pTbins,0,2000)
     bquark_pt.GetXaxis().SetTitle("Bottom Quark p_{T}[GeV]")
 
-    higgs_dR =ROOT.TH1F("higgs_dR"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,6)
+    higgs_dR =ROOT.TH1F("higgs_dR"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,0,6)
     higgs_dR.GetXaxis().SetTitle("#Delta R(h_{SM}h)")
 
-    tau_dR =ROOT.TH1F("tau_dR"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,6)
+    tau_dR =ROOT.TH1F("tau_dR"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,0,6)
     tau_dR.GetXaxis().SetTitle("#Delta R(tau tau)")
 
-    bquark_dR =ROOT.TH1F("bquark_dR"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,20,0,6)
+    bquark_dR =ROOT.TH1F("bquark_dR"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,0,6)
     bquark_dR.GetXaxis().SetTitle("#Delta R(b/#bar{b})")
 
     count = 0
