@@ -61,6 +61,7 @@ def plottHisto(hist1,hist2,hist3,file,mass,line=False,axis=False,ptTitle=None):
     maxy3=hist3.GetBinContent(hist3.GetMaximumBin())
     maximum=max(maxy1,maxy2,maxy3)
 
+    # hist1.SetMaximum(1)
     hist1.SetMaximum(maximum+0.1)
 
     hist1.SetTitleOffset(1.25,"X")   
@@ -185,20 +186,22 @@ def make2Dhist(mLH,Hist_3D,infos):
     return(hist2D)
                 
 
-def plot2DHisto(hist,file,mLH,line=False,axis=False,ptTitle=None):
+def plot2DHisto(hist,file,mLH,line=False,axis=False,ptTitle=None,bottom=False):
     ROOT.gStyle.SetPadRightMargin(0.15)
     ROOT.gStyle.SetPadLeftMargin(0.13)
 
     canvas = ROOT.TCanvas("canvas","canvas",980,720)
     canvas.cd()
 
-    hist.SetMinimum(0.001)
+    hist.SetMinimum(0.)
+    hist.SetMaximum(1.)
 
     hist.SetTitle("m_{h_{S}}"+"={}GeV".format(mLH))
     hist.Draw("COLZ1")
     hist.SetTitleOffset(1.25,"Y")
-    # hist.SetTitleOffset(1.75,"Z")
-    hist.SetXTitle("Heavy Higgs Mass (GeV)")
+    # hist.SetTitleColor(ROOT.kGreen)
+    hist.SetTitleOffset(1.75,"Z")
+    hist.SetXTitle("m_{H} (GeV)")
     YTitle = hist.GetYaxis().GetTitle()
     if axis:
         hist.SetYTitle("#Delta R(h_{SM}h_{S})")
@@ -208,43 +211,57 @@ def plot2DHisto(hist,file,mLH,line=False,axis=False,ptTitle=None):
         hist.SetYTitle(YTitle)
 
     if line:
-        ak4line = ROOT.TLine(200.,0.4,3000,0.4)
-        ak8line = ROOT.TLine(200.,0.8,3000,0.8)#0.005
-        ak15line = ROOT.TLine(200.,1.5,3000,1.5)
+        if bottom:
+            ak4line = ROOT.TLine(200.,0.4,3000,0.4)
+            ak8line = ROOT.TLine(200.,0.8,3000,0.8)#0.005
+            ak15line = ROOT.TLine(200.,1.5,3000,1.5)
 
-        ak4line.SetLineColor(ROOT.kRed)
-        ak4line.SetLineWidth(2)
-        ak4line.SetLineStyle(2)
+            ak4line.SetLineColor(ROOT.kRed)
+            ak4line.SetLineWidth(2)
+            ak4line.SetLineStyle(2)
 
-        ak8line.SetLineColor(ROOT.kRed)
-        ak8line.SetLineWidth(2)
-        ak8line.SetLineStyle(2)
+            ak8line.SetLineColor(ROOT.kRed)
+            ak8line.SetLineWidth(2)
+            ak8line.SetLineStyle(2)
 
-        ak15line.SetLineColor(ROOT.kRed)
-        ak15line.SetLineWidth(2)
-        ak15line.SetLineStyle(2)
+            ak15line.SetLineColor(ROOT.kRed)
+            ak15line.SetLineWidth(2)
+            ak15line.SetLineStyle(2)
 
-        ak4text = ROOT.TText()
-        ak4text.SetTextFont(63)
-        ak4text.SetTextSizePixels(30)
-        ak4text.SetTextColor(ROOT.kRed)
-        ak4text.DrawTextNDC(0.075, 0.155, "0.4")
+            ak4text = ROOT.TText()
+            ak4text.SetTextFont(63)
+            ak4text.SetTextSizePixels(30)
+            ak4text.SetTextColor(ROOT.kRed)
+            ak4text.DrawTextNDC(0.075, 0.155, "0.4")
 
-        ak8text = ROOT.TText()
-        ak8text.SetTextFont(63)
-        ak8text.SetTextSizePixels(30)
-        ak8text.SetTextColor(ROOT.kRed)
-        ak8text.DrawTextNDC(0.075, 0.2125, "0.8")#0.82
+            ak8text = ROOT.TText()
+            ak8text.SetTextFont(63)
+            ak8text.SetTextSizePixels(30)
+            ak8text.SetTextColor(ROOT.kRed)
+            ak8text.DrawTextNDC(0.075, 0.2125, "0.8")#0.82
 
-        ak15text = ROOT.TText()
-        ak15text.SetTextFont(63)
-        ak15text.SetTextSizePixels(30)
-        ak15text.SetTextColor(ROOT.kRed)
-        ak15text.DrawTextNDC(0.075, 0.3, "1.5")
+            ak15text = ROOT.TText()
+            ak15text.SetTextFont(63)
+            ak15text.SetTextSizePixels(30)
+            ak15text.SetTextColor(ROOT.kRed)
+            ak15text.DrawTextNDC(0.075, 0.3, "1.5")
 
-        ak4line.Draw()
-        ak8line.Draw()
-        ak15line.Draw()
+            ak4line.Draw()
+            ak8line.Draw()
+            ak15line.Draw()
+            hist.GetYaxis().SetTitleColor(ROOT.kGreen)
+        else:
+            ak5line = ROOT.TLine(200.,0.5,3000,0.5)
+            ak5line.SetLineColor(ROOT.kRed)
+            ak5line.SetLineWidth(2)
+            ak5line.SetLineStyle(2)
+            ak5text = ROOT.TText()
+            ak5text.SetTextFont(63)
+            ak5text.SetTextSizePixels(30)
+            ak5text.SetTextColor(ROOT.kRed)
+            ak5text.DrawTextNDC(0.075, 0.165, "0.5")
+            ak5line.Draw()
+            hist.GetYaxis().SetTitleColor(ROOT.kBlue)
 
     ROOT.gPad.Modified()
     ROOT.gPad.Update()
@@ -283,12 +300,15 @@ def plot3DHisto(hist,file,nbins,axis=False,ptTitle=None):
 
     hist.SetTitle("")
 
-    if nbins==40:
-        hist.SetMinimum(0.1)
-    elif nbins==20:
-        hist.SetMinimum(0.2)
-    elif nbins==10:
-        hist.SetMinimum(0.35)
+    # if nbins==40:
+    #     hist.SetMinimum(0.1)
+    # elif nbins==20:
+    #     hist.SetMinimum(0.2)
+    # elif nbins==10:
+    #     hist.SetMinimum(0.35)
+    hist.SetMaximum(1.)
+    hist.SetMinimum(0.)
+
 
     hist.Draw("BOX2 Z")
     hist.SetTitleOffset(1.75,"X") 
@@ -337,18 +357,18 @@ for (dirpath, dirnames, filenames) in os.walk(args[0]):
         else:
             files.append([file,"3D"])
 
-masspoint1=["500","120"]
-masspoint2=["1200","120"]
-masspoint3=["3000","120"]
+masspoint1=["2000","500"]
+masspoint2=["2000","120"]
+masspoint3=["2000","1000"]
 masspoints=[masspoint1,masspoint2,masspoint3]
 
 for file in files:
     if (file[0].find("_MH_"+masspoint1[0]+"_Mh_") >= 0 and file[0].find("_Mh_"+masspoint1[1]+".root") >=0):
         histFile_1 = ROOT.TFile.Open(args[0]+file[0],"READ")
         bquark_pt_Histo_1 = histFile_1.Get("bquark_pt_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
-        antibquark_pt_Histo_1 = histFile_1.Get("antibquark_pt_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        # antibquark_pt_Histo_1 = histFile_1.Get("antibquark_pt_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
         tau_pt_Histo_1 = histFile_1.Get("tau_pt_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
-        antitau_pt_Histo_1 = histFile_1.Get("antitau_pt_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        # antitau_pt_Histo_1 = histFile_1.Get("antitau_pt_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
         HHpT_Histo_1 = histFile_1.Get("HeavyHiggs_pt_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
         LHpt_Histo_1 = histFile_1.Get("LightHiggs_pt_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
         SMpt_Histo_1 = histFile_1.Get("SMHiggs_pt_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
@@ -357,9 +377,9 @@ for file in files:
         bdR_Histo_1 = histFile_1.Get("bquark_dR_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
 
         bquark_pt_Histo_1.SetDirectory(0)
-        antibquark_pt_Histo_1.SetDirectory(0)
+        # antibquark_pt_Histo_1.SetDirectory(0)
         tau_pt_Histo_1.SetDirectory(0)
-        antitau_pt_Histo_1.SetDirectory(0)
+        # antitau_pt_Histo_1.SetDirectory(0)
         HHpT_Histo_1.SetDirectory(0)
         LHpt_Histo_1.SetDirectory(0)
         SMpt_Histo_1.SetDirectory(0)
@@ -371,9 +391,9 @@ for file in files:
     elif(file[0].find("_MH_"+masspoint2[0]+"_Mh_") >= 0 and file[0].find("_Mh_"+masspoint2[1]+".root") >=0):
         histFile_2 = ROOT.TFile.Open(args[0]+file[0],"READ")
         bquark_pt_Histo_2 = histFile_2.Get("bquark_pt_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
-        antibquark_pt_Histo_2 = histFile_2.Get("antibquark_pt_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
+        # antibquark_pt_Histo_2 = histFile_2.Get("antibquark_pt_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
         tau_pt_Histo_2 = histFile_2.Get("tau_pt_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
-        antitau_pt_Histo_2 = histFile_2.Get("antitau_pt_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
+        # antitau_pt_Histo_2 = histFile_2.Get("antitau_pt_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
         HHpT_Histo_2 = histFile_2.Get("HeavyHiggs_pt_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
         LHpt_Histo_2 = histFile_2.Get("LightHiggs_pt_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
         SMpt_Histo_2 = histFile_2.Get("SMHiggs_pt_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
@@ -382,9 +402,9 @@ for file in files:
         bdR_Histo_2 = histFile_2.Get("bquark_dR_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
 
         bquark_pt_Histo_2.SetDirectory(0)
-        antibquark_pt_Histo_2.SetDirectory(0)
+        # antibquark_pt_Histo_2.SetDirectory(0)
         tau_pt_Histo_2.SetDirectory(0)
-        antitau_pt_Histo_2.SetDirectory(0)
+        # antitau_pt_Histo_2.SetDirectory(0)
         HHpT_Histo_2.SetDirectory(0)
         LHpt_Histo_2.SetDirectory(0)
         SMpt_Histo_2.SetDirectory(0)
@@ -396,9 +416,9 @@ for file in files:
     elif(file[0].find("_MH_"+masspoint3[0]+"_Mh_") >= 0 and file[0].find("_Mh_"+masspoint3[1]+".root") >=0):
         histFile_3 = ROOT.TFile.Open(args[0]+file[0],"READ")
         bquark_pt_Histo_3 = histFile_3.Get("bquark_pt_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
-        antibquark_pt_Histo_3 = histFile_3.Get("antibquark_pt_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
+        # antibquark_pt_Histo_3 = histFile_3.Get("antibquark_pt_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
         tau_pt_Histo_3 = histFile_3.Get("tau_pt_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
-        antitau_pt_Histo_3 = histFile_3.Get("antitau_pt_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
+        # antitau_pt_Histo_3 = histFile_3.Get("antitau_pt_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
         HHpT_Histo_3 = histFile_3.Get("HeavyHiggs_pt_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
         LHpt_Histo_3 = histFile_3.Get("LightHiggs_pt_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
         SMpt_Histo_3 = histFile_3.Get("SMHiggs_pt_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
@@ -407,9 +427,9 @@ for file in files:
         bdR_Histo_3 = histFile_3.Get("bquark_dR_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
 
         bquark_pt_Histo_3.SetDirectory(0)
-        antibquark_pt_Histo_3.SetDirectory(0)
+        # antibquark_pt_Histo_3.SetDirectory(0)
         tau_pt_Histo_3.SetDirectory(0)
-        antitau_pt_Histo_3.SetDirectory(0)
+        # antitau_pt_Histo_3.SetDirectory(0)
         HHpT_Histo_3.SetDirectory(0)
         LHpt_Histo_3.SetDirectory(0)
         SMpt_Histo_3.SetDirectory(0)
@@ -470,12 +490,12 @@ infospT=getbins(pTHH_Histo_3D)
 # plot3DHisto(pTLH_Histo_3D,check+"/pTLH_3D.pdf",infospT[2][0],ptTitle="Light Higgs p_{T}(GeV)")
 # plot3DHisto(pTSMH_Histo_3D,check+"/pTHSM_3D.pdf",infospT[2][0],ptTitle="SM Higgs p_{T}(GeV)")
 
-mLH=[120,250,500,1000]
+mLH=[120]#,500,1000]
 for mL in mLH:
-    # plot2DHisto(make2Dhist(mL,dRbb_Histo_3D,infosdR),check+"/"+"{}".format(mL)+"_dRbb_2D.pdf",mL,True)
-    plot2DHisto(make2Dhist(mL,dRtautau_Histo_3D,infosdR),check+"/"+"{}".format(mL)+"_dRtt_2D.pdf",mL,False)
+    plot2DHisto(make2Dhist(mL,dRbb_Histo_3D,infosdR),check+"/"+"{}".format(mL)+"_dRbb_2D.pdf",mL,True,bottom=True)
+    plot2DHisto(make2Dhist(mL,dRtautau_Histo_3D,infosdR),check+"/"+"{}".format(mL)+"_dRtt_2D.pdf",mL,True,bottom=False)
     # plot2DHisto(make2Dhist(mL,dRhhSM_Histo_3D,infosdR),check+"/"+"{}".format(mL)+"_dRhhSM_2D.pdf",mL,False,axis=True)
 
     # plot2DHisto(make2Dhist(mL,pTSMH_Histo_3D,infospT),check+"/"+"{}".format(mL)+"_pTSMH_2D.pdf",mL,False,ptTitle="SM Higgs p_{T}(GeV)")
     # plot2DHisto(make2Dhist(mL,pTLH_Histo_3D,infospT),check+"/"+"{}".format(mL)+"_pTLH_2D.pdf",mL,False,ptTitle="Light Higgs p_{T}(GeV)")
-    # plot2DHisto(make2Dhist(mL,pTHH_Histo_3D,infospT),check+"/"+"{}".format(mL)+"_pTHH_2D.pdf",mL,False,ptTitle="Heavy Higgs p_{T}(GeV)")
+    plot2DHisto(make2Dhist(mL,pTHH_Histo_3D,infospT),check+"/"+"{}".format(mL)+"_pTHH_2D.pdf",mL,False,ptTitle="p_{T}(H)(GeV)")
