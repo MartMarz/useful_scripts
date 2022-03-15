@@ -56,7 +56,7 @@ for (dirpath, dirnames, filenames) in os.walk(args[0]):
             files.append([file,find_masses(file)])
 
 histos=["bquark_pt","tau_pt","HeavyHiggs_pt","LightHiggs_pt","SMHiggs_pt","higgs_dR","tau_dR","bquark_dR"]
-wanted_mhS=np.array(["60","120","500"])
+wanted_mhS=np.array(["100","170","1400"])
 wanted_mhS_2D=np.array(["60","70","80","90","100","120","150","170","190","250","300","350","400","450","500","550","600","650","700","800"
 ,"900","1000","1200","1300","1400","1600","1800","2000","2200","2400","2600","2800"])
 
@@ -157,7 +157,7 @@ for wan_mhS in wanted_mhS_2D:
 # More versatile wrapper
 # fig, hosts = plt.subplots(2,3,figsize=(20,10)) # (width, height) in inches
 # (see https://matplotlib.org/3.3.3/api/_as_gen/matplotlib.pyplot.subplots.html)
-mean
+# mean
 if len(wanted_mhS)>1:
     fig = plt.figure(figsize=(20,10))
 else:
@@ -427,7 +427,7 @@ for Rx in dR_arr:
                 R.get_yaxis().get_offset_text().set_visible(False)
                 R.set_ylabel("")
     else:
-        Rx.set_ylabel("mean $\Delta$R")
+        Rx.set_ylabel("median $\Delta$R")
         Rx.set_ylim(0, 5.75)
         lastrow = Rx.is_last_row()
         lastcol = Rx.is_last_col()
@@ -626,8 +626,11 @@ for quad in median_quadruplets:
     elif quad[2] <= 0.5 and quad[3] <= 0.4:
         ax.add_patch(Rectangle((MHposition-0.5, mhposition-0.5), 1, 1, linewidth=1, edgecolor='purple', facecolor='purple',alpha=0.25))
     
+    
 
-
+ax.axhline(4.5,c='red')
+ax.axhline(9.5,c='red')
+ax.axvline(15.5,c='red')
 # # ax.set_zlabel("$\Delta$R (tau tau)")
 ax.set_xticks(range(len(plots[0][1])+1))
 ax.set_xticks(np.arange(0.5,len(plots[0][1])+1.5,1), minor=True)
@@ -652,7 +655,6 @@ ax.xaxis.label.set_fontsize(fontsize)
 # fig.tight_layout()
 plt.savefig(check+'/2D_median.pdf')
 
-from matplotlib.patches import Rectangle
 fig = plt.figure(figsize=(15,18))
 
 plt.figtext(0.025, 0.95, 'CMS simulation', fontdict=None,size=30,weight='bold')
@@ -720,7 +722,10 @@ for quad in mean_quadruplets:
         ax.add_patch(Rectangle((MHposition-0.5, mhposition-0.5), 1, 1, linewidth=1, edgecolor=pTbcolor, facecolor=pTbcolor,alpha=0.25))
     elif quad[2] <= 0.5 and quad[3] <= 0.4:
         ax.add_patch(Rectangle((MHposition-0.5, mhposition-0.5), 1, 1, linewidth=1, edgecolor='purple', facecolor='purple',alpha=0.25))
-    
+
+ax.axhline(4.5,c='red')
+ax.axhline(6.5,c='red')
+ax.axvline(18.5,c='red')
 # # ax.set_zlabel("$\Delta$R (tau tau)")
 ax.set_xticks(range(len(plots[0][1])+1))
 ax.set_xticks(np.arange(0.5,len(plots[0][1])+1.5,1), minor=True)

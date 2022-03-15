@@ -246,6 +246,17 @@ for masspoints in infos:
     bquark_dR =ROOT.TH1F("bquark_dR"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,0,6)
     bquark_dR.GetXaxis().SetTitle("#Delta R(b/#bar{b})")
 
+    bquark_eta =ROOT.TH1F("bquark_eta"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,-3,3)
+    bquark_eta.GetXaxis().SetTitle("b eta")
+    tau_eta =ROOT.TH1F("tau_eta"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,-3,3)
+    tau_eta.GetXaxis().SetTitle("tau eta")
+    HH_eta =ROOT.TH1F("HeavyHiggs_eta"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,-3,3)
+    HH_eta.GetXaxis().SetTitle("H eta")
+    LH_eta =ROOT.TH1F("LightHiggs_eta"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,-3,3)
+    LH_eta.GetXaxis().SetTitle("h_{S} eta")
+    SM_eta =ROOT.TH1F("SMHiggs_eta"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,-3,3)
+    SM_eta.GetXaxis().SetTitle("h eta")
+
     count = 0
     # loop over files
     for filename in reducedfilelist:
@@ -281,6 +292,17 @@ for masspoints in infos:
             HeavyHiggs_found=False
             SMHiggs_found=False
             LightHiggs_found=False
+            
+            cuts_appl=True
+            bottom_cut=False
+            antibottom_cut=False
+            tau_cut=False
+            antitau_cut=False
+
+            tau_cut_val=25.
+            b_cut_val=20.
+            tau_eta_val=2.3
+            b_eta_val=2.5
 
             bottom_id = 5
             antibottom_id = -5
@@ -298,15 +320,23 @@ for masspoints in infos:
                 if p.pdgId()==bottom_id and p.isLastCopy() and FindSpecificMothers(mothers, LightHiggs_id):
                     bottom_found = True
                     bottom_p4 = p.p4()
+                    if bottom_p4.pt() >= b_cut_val and abs(bottom_p4.eta()) <= b_eta_val:
+                        bottom_cut = True
                 if p.pdgId()==antibottom_id and p.isLastCopy() and FindSpecificMothers(mothers, LightHiggs_id):
                     antibottom_found = True
                     antibottom_p4 = p.p4()
+                    if antibottom_p4.pt() >= b_cut_val and abs(antibottom_p4.eta()) <= b_eta_val:
+                        antibottom_cut = True
                 if p.pdgId()==tau_id and p.isLastCopy() and FindSpecificMothers(mothers, SMHiggs_id):
                     tau_found = True
                     tau_p4 = p.p4()
+                    if tau_p4.pt() >= tau_cut_val and abs(tau_p4.eta()) <= tau_eta_val:
+                        tau_cut = True
                 if p.pdgId()==antitau_id and p.isLastCopy() and FindSpecificMothers(mothers, SMHiggs_id):
                     antitau_found = True
                     antitau_p4 = p.p4()
+                    if antitau_p4.pt() >= tau_cut_val and abs(antitau_p4.eta()) <= tau_eta_val:
+                        antitau_cut = True
                 if abs(p.pdgId())==SMHiggs_id and p.isLastCopy() and FindSpecificMothers(mothers, HeavyHiggs_id):
                     SMHiggs_found = True
                     SMHiggs_p4 = p.p4()
@@ -318,17 +348,29 @@ for masspoints in infos:
                     HeavyHiggs_p4 = p.p4()
                 # print("b:", bottom_found, "ab:", antibottom_found, "t:", tau_found,"at:", antitau_found,"HH:", HeavyHiggs_found,"SMH:", SMHiggs_found,"LH:", LightHiggs_found) 
                 everything_found = bottom_found and antibottom_found and tau_found and antitau_found and HeavyHiggs_found and SMHiggs_found and LightHiggs_found
+                if cuts_appl:
+                    cuts = bottom_cut and antibottom_cut and tau_cut and antitau_cut
+                else:
+                    cuts=True
 
-            if everything_found:
+            if everything_found and cuts:
                 bquark_pt.Fill(bottom_p4.pt(),weight)
                 bquark_pt.Fill(antibottom_p4.pt(),weight)
+                bquark_eta.Fill(bottom_p4.eta(),weight)
+                bquark_eta.Fill(antibottom_p4.eta(),weight)
                 # antibquark_pt.Fill(antibottom_p4.pt(),weight)
                 tau_pt.Fill(tau_p4.pt(),weight)
                 tau_pt.Fill(antitau_p4.pt(),weight)
+                tau_eta.Fill(tau_p4.eta(),weight)
+                tau_eta.Fill(antitau_p4.eta(),weight)
                 # antitau_pt.Fill(antitau_p4.pt(),weight)
                 heavyHiggs_pt.Fill(HeavyHiggs_p4.pt(),weight)
                 lightHiggs_pt.Fill(LightHiggs_p4.pt(),weight)
                 smHiggs_pt.Fill(SMHiggs_p4.pt(),weight)
+
+                HH_eta.Fill(HeavyHiggs_p4.eta(),weight)
+                LH_eta.Fill(LightHiggs_p4.eta(),weight)
+                SM_eta.Fill(SMHiggs_p4.eta(),weight)
             
                 dR_b_b = sqrt(ROOT.Math.VectorUtil.DeltaR2(bottom_p4, antibottom_p4))
                 bquark_dR.Fill(dR_b_b,weight)
@@ -347,24 +389,38 @@ for masspoints in infos:
                 continue
 
     bquark_pt.Scale(1./bquark_pt.Integral())
+    bquark_eta.Scale(1./bquark_eta.Integral())
     # antibquark_pt.Scale(1./antibquark_pt.Integral())
     tau_pt.Scale(1./tau_pt.Integral())
+    tau_eta.Scale(1./tau_eta.Integral())
     # antitau_pt.Scale(1./antitau_pt.Integral())
     heavyHiggs_pt.Scale(1./heavyHiggs_pt.Integral())
     lightHiggs_pt.Scale(1./lightHiggs_pt.Integral())
     smHiggs_pt.Scale(1./smHiggs_pt.Integral())
+
+    HH_eta.Scale(1./HH_eta.Integral())
+    LH_eta.Scale(1./LH_eta.Integral())
+    SM_eta.Scale(1./SM_eta.Integral())
+
     higgs_dR.Scale(1./higgs_dR.Integral())
     tau_dR.Scale(1./tau_dR.Integral())
     bquark_dR.Scale(1./bquark_dR.Integral())
 
     output_file = ROOT.TFile.Open(outpath+"/"+"GenStudies_"+"MH_"+mH+"_Mh_"+mh+".root","RECREATE")
     output_file.WriteTObject(bquark_pt)
+    output_file.WriteTObject(bquark_eta)
     # output_file.WriteTObject(antibquark_pt)
     output_file.WriteTObject(tau_pt)
+    output_file.WriteTObject(tau_eta)
     # output_file.WriteTObject(antitau_pt)
     output_file.WriteTObject(heavyHiggs_pt)
     output_file.WriteTObject(lightHiggs_pt)
     output_file.WriteTObject(smHiggs_pt)
+
+    output_file.WriteTObject(HH_eta)
+    output_file.WriteTObject(LH_eta)
+    output_file.WriteTObject(SM_eta)
+
     output_file.WriteTObject(higgs_dR)
     output_file.WriteTObject(tau_dR)
     output_file.WriteTObject(bquark_dR)

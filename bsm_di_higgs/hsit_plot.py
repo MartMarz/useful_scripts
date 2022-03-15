@@ -46,7 +46,7 @@ def find_masses(dataset_name):
 def filename(MH1,mh1,MH2,mh2,MH3,mh3,folder):
     return (folder+"_H1_"+MH1+"_"+"h1_"+mh1+"_"+"H2_"+MH2+"_"+"h2_"+mh2+"_"+"H3_"+MH3+"_"+"h3_"+mh3)
 
-def plottHisto(hist1,hist2,hist3,file,mass,line=False,axis=False,ptTitle=None):
+def plottHisto(hist1,hist2,hist3,file,mass,line=False,axis=False,ptTitle=None,tauline=False):
     ROOT.gStyle.SetPadRightMargin(0.05)
 
     canvas = ROOT.TCanvas("canvas","canvas",980,720)
@@ -124,7 +124,20 @@ def plottHisto(hist1,hist2,hist3,file,mass,line=False,axis=False,ptTitle=None):
         ak4line.Draw()
         ak8line.Draw()
         ak15line.Draw()
+    if tauline:
+        ak5line = ROOT.TLine(0.5,0.,0.5,maximum+0.1)
 
+        ak5line.SetLineColor(ROOT.kRed)
+        ak5line.SetLineWidth(3)
+        ak5line.SetLineStyle(2)
+
+        ak5text = ROOT.TText()
+        ak5text.SetTextFont(63)
+        ak5text.SetTextSizePixels(30)
+        ak5text.SetTextColor(ROOT.kRed)
+        ak5text.DrawTextNDC(0.13, 0.05, "0.5")
+
+        ak5line.Draw()
     # canvas.RedrawAxis("g")
 
     tt_bla = ROOT.TText()
@@ -265,10 +278,8 @@ def plot2DHisto(hist,file,mLH,line=False,axis=False,ptTitle=None,bottom=False):
 
     ROOT.gPad.Modified()
     ROOT.gPad.Update()
-    palette=hist.GetListOfFunctions().FindObject("palette")
-    palette.GetAxis().SetTitle("Arbitrary Units")
-    palette.Draw("same")
-    palette.GetAxis().SetTitleOffset(1)
+    hist.SetZTitle('Arbitrary Units')
+    hist.GetZaxis().SetTitleOffset(1)
     canvas.Modified()
     canvas.Update()
     title=ROOT.gPad.FindObject("title")
@@ -357,9 +368,9 @@ for (dirpath, dirnames, filenames) in os.walk(args[0]):
         else:
             files.append([file,"3D"])
 
-masspoint1=["2000","500"]
-masspoint2=["2000","120"]
-masspoint3=["2000","1000"]
+masspoint1=["1400","100"]
+masspoint2=["2500","170"]
+masspoint3=["2000","1400"]
 masspoints=[masspoint1,masspoint2,masspoint3]
 
 for file in files:
@@ -372,6 +383,13 @@ for file in files:
         HHpT_Histo_1 = histFile_1.Get("HeavyHiggs_pt_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
         LHpt_Histo_1 = histFile_1.Get("LightHiggs_pt_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
         SMpt_Histo_1 = histFile_1.Get("SMHiggs_pt_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+
+        bquark_eta_Histo_1 = histFile_1.Get("bquark_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        tau_eta_Histo_1 = histFile_1.Get("tau_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        HHeta_Histo_1 = histFile_1.Get("HeavyHiggs_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        LHeta_Histo_1 = histFile_1.Get("LightHiggs_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        SMeta_Histo_1 = histFile_1.Get("SMHiggs_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+
         HdR_Histo_1 = histFile_1.Get("higgs_dR_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
         tdR_Histo_1 = histFile_1.Get("tau_dR_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
         bdR_Histo_1 = histFile_1.Get("bquark_dR_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
@@ -383,6 +401,13 @@ for file in files:
         HHpT_Histo_1.SetDirectory(0)
         LHpt_Histo_1.SetDirectory(0)
         SMpt_Histo_1.SetDirectory(0)
+
+        bquark_eta_Histo_1.SetDirectory(0)
+        tau_eta_Histo_1.SetDirectory(0)
+        HHeta_Histo_1.SetDirectory(0)
+        LHeta_Histo_1.SetDirectory(0)
+        SMeta_Histo_1.SetDirectory(0)
+
         HdR_Histo_1.SetDirectory(0)
         tdR_Histo_1.SetDirectory(0)
         bdR_Histo_1.SetDirectory(0)
@@ -397,6 +422,13 @@ for file in files:
         HHpT_Histo_2 = histFile_2.Get("HeavyHiggs_pt_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
         LHpt_Histo_2 = histFile_2.Get("LightHiggs_pt_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
         SMpt_Histo_2 = histFile_2.Get("SMHiggs_pt_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
+
+        bquark_eta_Histo_2 = histFile_2.Get("bquark_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        tau_eta_Histo_2 = histFile_2.Get("tau_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        HHeta_Histo_2 = histFile_2.Get("HeavyHiggs_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        LHeta_Histo_2 = histFile_2.Get("LightHiggs_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        SMeta_Histo_2 = histFile_2.Get("SMHiggs_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+
         HdR_Histo_2 = histFile_2.Get("higgs_dR_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
         tdR_Histo_2 = histFile_2.Get("tau_dR_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
         bdR_Histo_2 = histFile_2.Get("bquark_dR_MH_"+masspoint2[0]+"_mh_"+masspoint2[1])
@@ -408,6 +440,13 @@ for file in files:
         HHpT_Histo_2.SetDirectory(0)
         LHpt_Histo_2.SetDirectory(0)
         SMpt_Histo_2.SetDirectory(0)
+
+        bquark_eta_Histo_2.SetDirectory(0)
+        tau_eta_Histo_2.SetDirectory(0)
+        HHeta_Histo_2.SetDirectory(0)
+        LHeta_Histo_2.SetDirectory(0)
+        SMeta_Histo_2.SetDirectory(0)
+
         HdR_Histo_2.SetDirectory(0)
         tdR_Histo_2.SetDirectory(0)
         bdR_Histo_2.SetDirectory(0)
@@ -422,6 +461,13 @@ for file in files:
         HHpT_Histo_3 = histFile_3.Get("HeavyHiggs_pt_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
         LHpt_Histo_3 = histFile_3.Get("LightHiggs_pt_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
         SMpt_Histo_3 = histFile_3.Get("SMHiggs_pt_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
+
+        bquark_eta_Histo_3 = histFile_3.Get("bquark_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        tau_eta_Histo_3 = histFile_3.Get("tau_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        HHeta_Histo_3 = histFile_3.Get("HeavyHiggs_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        LHeta_Histo_3 = histFile_3.Get("LightHiggs_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+        SMeta_Histo_3 = histFile_3.Get("SMHiggs_eta_MH_"+masspoint1[0]+"_mh_"+masspoint1[1])
+
         HdR_Histo_3 = histFile_3.Get("higgs_dR_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
         tdR_Histo_3 = histFile_3.Get("tau_dR_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
         bdR_Histo_3 = histFile_3.Get("bquark_dR_MH_"+masspoint3[0]+"_mh_"+masspoint3[1])
@@ -433,6 +479,13 @@ for file in files:
         HHpT_Histo_3.SetDirectory(0)
         LHpt_Histo_3.SetDirectory(0)
         SMpt_Histo_3.SetDirectory(0)
+
+        bquark_eta_Histo_3.SetDirectory(0)
+        tau_eta_Histo_3.SetDirectory(0)
+        HHeta_Histo_3.SetDirectory(0)
+        LHeta_Histo_3.SetDirectory(0)
+        SMeta_Histo_3.SetDirectory(0)
+
         HdR_Histo_3.SetDirectory(0)
         tdR_Histo_3.SetDirectory(0)
         bdR_Histo_3.SetDirectory(0)
@@ -470,18 +523,24 @@ for n in range(50):
 infosdR=getbins(dRbb_Histo_3D)#infos=[[n_LH_bins,LHedges],[n_HH_bins,HHedges],[n_value_bins,Valueedges]]
 infospT=getbins(pTHH_Histo_3D)
 
-# plottHisto(bquark_pt_Histo_1,bquark_pt_Histo_2,bquark_pt_Histo_3,check+"/bquark_pt.pdf",masspoints,ptTitle="Bottom Quark p_{T}(GeV)")
+plottHisto(bquark_pt_Histo_1,bquark_pt_Histo_2,bquark_pt_Histo_3,check+"/bquark_pt.pdf",masspoints,ptTitle="Bottom Quark p_{T}(GeV)")
 # plottHisto(antibquark_pt_Histo_1,antibquark_pt_Histo_2,antibquark_pt_Histo_3,check+"/antibquark_pt.pdf",masspoints,ptTitle="Anti Bottom Quark p_{T}(GeV)")
-# plottHisto(tau_pt_Histo_1,tau_pt_Histo_2,tau_pt_Histo_3,check+"/tau_pt.pdf",masspoints,ptTitle="Tau p_{T}(GeV)")
+plottHisto(tau_pt_Histo_1,tau_pt_Histo_2,tau_pt_Histo_3,check+"/tau_pt.pdf",masspoints,ptTitle="Tau p_{T}(GeV)")
 # plottHisto(antitau_pt_Histo_1,antitau_pt_Histo_2,antitau_pt_Histo_3,check+"/antitau_pt.pdf",masspoints,ptTitle="Anti Tau Quark p_{T}(GeV)")
 
-# plottHisto(HHpT_Histo_1,HHpT_Histo_2,HHpT_Histo_3,check+"/HHpt.pdf",masspoints,ptTitle="Heavy Higgs p_{T}(GeV)")
-# plottHisto(LHpt_Histo_1,LHpt_Histo_2,LHpt_Histo_3,check+"/LHpt.pdf",masspoints,ptTitle="Light Higgs p_{T}(GeV)")
-# plottHisto(SMpt_Histo_1,SMpt_Histo_2,SMpt_Histo_3,check+"/SMpt.pdf",masspoints,ptTitle="SM Higgs p_{T}(GeV)")
+plottHisto(HHpT_Histo_1,HHpT_Histo_2,HHpT_Histo_3,check+"/HHpt.pdf",masspoints,ptTitle="Heavy Higgs p_{T}(GeV)")
+plottHisto(LHpt_Histo_1,LHpt_Histo_2,LHpt_Histo_3,check+"/LHpt.pdf",masspoints,ptTitle="Light Higgs p_{T}(GeV)")
+plottHisto(SMpt_Histo_1,SMpt_Histo_2,SMpt_Histo_3,check+"/SMpt.pdf",masspoints,ptTitle="SM Higgs p_{T}(GeV)")
 
-# plottHisto(HdR_Histo_1,HdR_Histo_2,HdR_Histo_3,check+"/hSM_h_dR.pdf",masspoints,axis=True)
-# plottHisto(tdR_Histo_1,tdR_Histo_2,tdR_Histo_3,check+"/tau_tau_dR.pdf",masspoints,True)
-# plottHisto(bdR_Histo_1,bdR_Histo_2,bdR_Histo_3,check+"/b_b_dR.pdf",masspoints,True)
+plottHisto(bquark_eta_Histo_1,bquark_eta_Histo_2,bquark_eta_Histo_3,check+"/bquark_eta.pdf",masspoints)
+plottHisto(tau_eta_Histo_1,tau_eta_Histo_2,tau_eta_Histo_3,check+"/tau_eta.pdf",masspoints)
+plottHisto(HHeta_Histo_1,HHeta_Histo_2,HHeta_Histo_3,check+"/HHeta.pdf",masspoints)
+plottHisto(LHeta_Histo_1,LHeta_Histo_2,LHeta_Histo_3,check+"/LHeta.pdf",masspoints)
+plottHisto(SMeta_Histo_1,SMeta_Histo_2,SMeta_Histo_3,check+"/SMeta.pdf",masspoints)
+
+plottHisto(HdR_Histo_1,HdR_Histo_2,HdR_Histo_3,check+"/hSM_h_dR.pdf",masspoints,axis=True)
+plottHisto(tdR_Histo_1,tdR_Histo_2,tdR_Histo_3,check+"/tau_tau_dR.pdf",masspoints,tauline=True)
+plottHisto(bdR_Histo_1,bdR_Histo_2,bdR_Histo_3,check+"/b_b_dR.pdf",masspoints,line=True)
  
 # plot3DHisto(dRbb_Histo_3D,check+"/dRbb_3D.pdf",infosdR[2][0])
 # plot3DHisto(dRtautau_Histo_3D,check+"/dRtt_3D.pdf",infosdR[2][0])
@@ -490,12 +549,12 @@ infospT=getbins(pTHH_Histo_3D)
 # plot3DHisto(pTLH_Histo_3D,check+"/pTLH_3D.pdf",infospT[2][0],ptTitle="Light Higgs p_{T}(GeV)")
 # plot3DHisto(pTSMH_Histo_3D,check+"/pTHSM_3D.pdf",infospT[2][0],ptTitle="SM Higgs p_{T}(GeV)")
 
-mLH=[120]#,500,1000]
-for mL in mLH:
-    plot2DHisto(make2Dhist(mL,dRbb_Histo_3D,infosdR),check+"/"+"{}".format(mL)+"_dRbb_2D.pdf",mL,True,bottom=True)
-    plot2DHisto(make2Dhist(mL,dRtautau_Histo_3D,infosdR),check+"/"+"{}".format(mL)+"_dRtt_2D.pdf",mL,True,bottom=False)
-    # plot2DHisto(make2Dhist(mL,dRhhSM_Histo_3D,infosdR),check+"/"+"{}".format(mL)+"_dRhhSM_2D.pdf",mL,False,axis=True)
+# mLH=[120]#,500,1000]
+# for mL in mLH:
+#     plot2DHisto(make2Dhist(mL,dRbb_Histo_3D,infosdR),check+"/"+"{}".format(mL)+"_dRbb_2D.pdf",mL,True,bottom=True)
+#     plot2DHisto(make2Dhist(mL,dRtautau_Histo_3D,infosdR),check+"/"+"{}".format(mL)+"_dRtt_2D.pdf",mL,True,bottom=False)
+#     plot2DHisto(make2Dhist(mL,dRhhSM_Histo_3D,infosdR),check+"/"+"{}".format(mL)+"_dRhhSM_2D.pdf",mL,False,axis=True)
 
-    # plot2DHisto(make2Dhist(mL,pTSMH_Histo_3D,infospT),check+"/"+"{}".format(mL)+"_pTSMH_2D.pdf",mL,False,ptTitle="SM Higgs p_{T}(GeV)")
-    # plot2DHisto(make2Dhist(mL,pTLH_Histo_3D,infospT),check+"/"+"{}".format(mL)+"_pTLH_2D.pdf",mL,False,ptTitle="Light Higgs p_{T}(GeV)")
-    plot2DHisto(make2Dhist(mL,pTHH_Histo_3D,infospT),check+"/"+"{}".format(mL)+"_pTHH_2D.pdf",mL,False,ptTitle="p_{T}(H)(GeV)")
+#     plot2DHisto(make2Dhist(mL,pTSMH_Histo_3D,infospT),check+"/"+"{}".format(mL)+"_pTSMH_2D.pdf",mL,False,ptTitle="SM Higgs p_{T}(GeV)")
+#     plot2DHisto(make2Dhist(mL,pTLH_Histo_3D,infospT),check+"/"+"{}".format(mL)+"_pTLH_2D.pdf",mL,False,ptTitle="Light Higgs p_{T}(GeV)")
+#     plot2DHisto(make2Dhist(mL,pTHH_Histo_3D,infospT),check+"/"+"{}".format(mL)+"_pTHH_2D.pdf",mL,False,ptTitle="p_{T}(H)(GeV)")
