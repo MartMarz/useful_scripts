@@ -263,9 +263,10 @@ for masspoints in infos:
         # loop over events in file
         events = Events(directoryName+filename)
         for event in events:
+            print("run:", event.eventAuxiliary().run(),"lumi: ",event.eventAuxiliary().luminosityBlock(),"eventID: " ,event.eventAuxiliary().event() )
             count += 1
-            # if count ==2:
-            #     break
+            if count ==2:
+                break
             if count % 1000 == 0:
                 print (count)
             event.getByLabel(labelPruned, handlePruned)
