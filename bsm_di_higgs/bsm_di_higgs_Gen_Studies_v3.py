@@ -23,7 +23,6 @@ parser.add_option("--maxevents", action="store", dest="maxevents", help="maximum
 # if not os.path.exists(opts.massDir):
 #     sys.exit("input directory {} does not exist".format(opts.massDir))
 
-
 outpath=opts.outDir
 for n in range(50):
     if not os.path.exists(outpath):
@@ -199,10 +198,43 @@ ptSMH_mh_MH.GetXaxis().SetTitle("m_{h_{S}} (GeV)")
 ptSMH_mh_MH.GetZaxis().SetTitle("h p_{T}(GeV)")
 # drbb_mh_MH.GetWaxis().SetTitle("Arbitrary units")
 
+prematch_RECO_fullhad = ROOT.TH1F("prematch_fullhad_dR","prematch_fullhad_dR",dRbins,0,6)
+prematch_RECO_fullhad.GetXaxis().SetTitle("#Delta R(tau tau)")
+prematch_RECO_semimu = ROOT.TH1F("prematch_semimu_dR","prematch_semimu_dR",dRbins,0,6)
+prematch_RECO_semimu.GetXaxis().SetTitle("#Delta R(tau mu)")
+prematch_RECO_semiele = ROOT.TH1F("prematch_semiele_dR","prematch_semiele_dR",dRbins,0,6)
+prematch_RECO_semiele.GetXaxis().SetTitle("#Delta R(tau e)")
+prematch_RECO_bs = ROOT.TH1F("prematch_b_dR","prematch_b_dR",dRbins,0,6)
+prematch_RECO_bs.GetXaxis().SetTitle("#Delta R(bb)")
+
+postmatch_RECO_fullhad = ROOT.TH1F("postmatch_fullhad_dR","postmatch_fullhad_dR",dRbins,0,6)
+postmatch_RECO_fullhad.GetXaxis().SetTitle("#Delta R(tau tau)")
+postmatch_RECO_semimu = ROOT.TH1F("postmatch_semimu_dR","postmatch_semimu_dR",dRbins,0,6)
+postmatch_RECO_semimu.GetXaxis().SetTitle("#Delta R(tau mu)")
+postmatch_RECO_semiele = ROOT.TH1F("postmatch_semiele_dR","postmatch_semiele_dR",dRbins,0,6)
+postmatch_RECO_semiele.GetXaxis().SetTitle("#Delta R(tau e)")
+postmatch_RECO_bs = ROOT.TH1F("postmatch_b_dR","postmatch_b_dR",dRbins,0,6)
+postmatch_RECO_bs.GetXaxis().SetTitle("#Delta R(bb)")
+
+prematch_RECO_tau = ROOT.TH1F("prematch_tau_dR","prematch_tau_dR",dRbins,0,6)
+prematch_RECO_tau.GetXaxis().SetTitle("#Delta R(tau tau)")
+postmatch_RECO_tau = ROOT.TH1F("postmatch_tau_dR","postmatch_tau_dR",dRbins,0,6)
+postmatch_RECO_tau.GetXaxis().SetTitle("#Delta R(tau tau)")
+prematch_RECO_jet = ROOT.TH1F("prematch_jet_dR","prematch_jet_dR",dRbins,0,6)
+prematch_RECO_jet.GetXaxis().SetTitle("#Delta R(bb)")
+postmatch_RECO_jet = ROOT.TH1F("postmatch_jet_dR","postmatch_jet_dR",dRbins,0,6)
+postmatch_RECO_jet.GetXaxis().SetTitle("#Delta R(bb)")
+
+precuts_RECO_jet = ROOT.TH1F("precuts_jet_dR","precuts_jet_dR",dRbins,0,6)
+precuts_RECO_jet.GetXaxis().SetTitle("#Delta R(bb)")
+precuts_RECO_tau = ROOT.TH1F("precuts_tau_dR","precuts_tau_dR",dRbins,0,6)
+precuts_RECO_tau.GetXaxis().SetTitle("#Delta R(tau tau)")
+
+
 masspointcounter=0
 for masspoints in infos:
 
-    # if masspointcounter==2:
+    # if masspointcounter==3:
     #     break
     # masspointcounter+=1
 
@@ -229,11 +261,21 @@ for masspoints in infos:
     # product labels and handles
     handlePruned = Handle("std::vector<reco::GenParticle>")
     handlePacked = Handle("std::vector<pat::PackedGenParticle>")
+    handleJets = Handle("std::vector<pat::Jet>")
+    handleTaus = Handle("std::vector<pat::Tau>")
+    handleMuons = Handle("std::vector<pat::Muon>")
+    handleElectrons = Handle("std::vector<pat::Electron>")
+    handleFat = Handle("std::vector<pat::Jet>")
     eventinfo = Handle("GenEventInfoProduct")
     #lheinfo = Handle("LHEEventProduct")
+    labelJets = "slimmedJets"
+    labelTaus = "slimmedTaus"
+    labelElectrons = "slimmedElectrons"
+    labelMuons = "slimmedMuons"
     labelPruned = "prunedGenParticles"
     labelPacked = "packedGenParticles"
     labelWeight = "generator"
+    labelFat = "slimmedJetsAK8"
     #labelLHE = "externalLHEProducer"
 
     # Histogramms for each seperate mass point
@@ -312,6 +354,18 @@ for masspoints in infos:
     combined_cut_counter = ROOT.TH1F("combined_cut_counter"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,2,0,2)
     combined_cut_counter.GetXaxis().SetTitle("N_{combinedcut}")
 
+    # Reco_Tau_dR = ROOT.TH1F("Reco_tau_dR"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,0,6)
+    # Reco_Tau_dR.GetXaxis().SetTitle("#Delta R(vistau recotau)")
+
+    # Reco_Mu_dR = ROOT.TH1F("Reco_mu_dR"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,0,6)
+    # Reco_Mu_dR.GetXaxis().SetTitle("#Delta R(vistau recomu)")
+
+    # Reco_Ele_dR = ROOT.TH1F("Reco_ele_dR"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,0,6)
+    # Reco_Ele_dR.GetXaxis().SetTitle("#Delta R(vistau recoele)")
+
+    # Reco_Bottom_dR = ROOT.TH1F("Reco_b_dR"+"_MH_"+mH+"_mh_"+mh,"Di Higgs M_{H}="+mH+" m_{h}="+mh,dRbins,0,6)
+    # Reco_Bottom_dR.GetXaxis().SetTitle("#Delta R(b recojet)")
+
     count = 0
     # loop over files
     for filename in reducedfilelist:
@@ -328,13 +382,34 @@ for masspoints in infos:
                 print (count)
             # if count == 1000:
             #     break
+            
+            event.getByLabel(labelJets, handleJets)
+            event.getByLabel(labelTaus, handleTaus)
+            event.getByLabel(labelMuons, handleMuons)
+            event.getByLabel(labelElectrons, handleElectrons)
             event.getByLabel(labelPruned, handlePruned)
+            event.getByLabel(labelFat, handleFat)
             event.getByLabel(labelWeight, eventinfo)
             #event.getByLabel(labelLHE, lheinfo)
             # get the products (prunedGenParticles collection, GenEventInfoProduct and LHEEventProduct)
             pruned = handlePruned.product()
             weight = eventinfo.product().weight()
+            Jets = handleJets.product()
+            Taus = handleTaus.product()
+            Muons = handleMuons.product()
+            Fats = handleFat.product()
+            Electrons = handleElectrons.product()
             #lhe_weight = lheinfo.product().originalXWGTUP()
+
+            #DeepTau vs jets name = by[WP]DeepTau2017v2p1VSjet; WP=VVVLoose,VVLoose,VLoose,Loose,Medium,Tight,VTight,VVTight
+            #DeepTau vs e name = by[WP]DeepTau2017v2p1VSe; WP=VVVLoose,VVLoose,VLoose,Loose,Medium,Tight,VTight,VVTight
+            #DeepTau vs mu name = by[WP]DeepTau2017v2p1VSmu; WP=VLoose,Loose,Medium,Tight
+            #function = tau.tauID(name)
+            # for tau in Taus:
+            #     print(tau.tauID("byVVVLooseDeepTau2017v2p1VSjet"))
+            # for jet in Jets:
+            #     if count==1:
+            #         print(jet.getPairDiscri())
             
             everything_found = False
             bottom_p4=None
@@ -458,8 +533,6 @@ for masspoints in infos:
             event_counter.Fill(1)
             #calculate visable tau pT
             if everything_found:
-                # print("all particle found in event")
-                # print("tau p4:", tau_p4)
                 vis_tau_p4 = tau_p4
                 vis_antitau_p4 = antitau_p4
                 for p in pruned:
@@ -468,7 +541,6 @@ for masspoints in infos:
                         vis_tau_p4 = vis_tau_p4 - p.p4()
                     if (abs(p.pdgId())==tau_neut_id or abs(p.pdgId())==ele_neut_id or abs(p.pdgId())==mu_neut_id) and p.isLastCopy() and FindSpecificParticle(mothers, antitau_id):
                         vis_antitau_p4 = vis_antitau_p4 - p.p4()
-                # print("vis tau p4:", vis_tau_p4)
 
                 #check tau cuts
                 if tau_decay_mode == "Had" and antitau_decay_mode == "Had":
@@ -498,10 +570,8 @@ for masspoints in infos:
                         antitau_cut = True
                 else:
                     event_decay = "fulllep"
-
-                # print("decay mode is: ", event_decay)
                 
-                #fill number of events
+                #fill number of events Gen Level
                 found_counter.Fill(1)
                 if tau_cut and antitau_cut:
                     combined_tau_cut_counter.Fill(1)
@@ -525,9 +595,213 @@ for masspoints in infos:
 
                 if tau_cut and antitau_cut and bottom_cut and antibottom_cut:
                     combined_cut_counter.Fill(1)
+
+                #Reco counter and matching
+                RecoFlag_tau_number = False
+                RecoFlag_jet_number = False
+                RecoFlag_dR = False
+                RecoFlag_dis = False
+
+                Reco_tau_dR_err = 0.1
+                Reco_mu_dR_err = 0.04
+                Reco_ele_dR_err = 0.04
+                Reco_jet_dR_err = 0.1
+
+                nMu=0
+                for muons in Muons:
+                    if muons.p4().pt() > mu_tau_cut_val and abs(muons.p4().eta()) <= mu_tau_eta_val:
+                        nMu+=1
+                nEle=0
+                for ele in Electrons:
+                    if ele.p4().pt() > ele_tau_cut_val and abs(ele.p4().eta()) <= ele_tau_eta_val:
+                        nEle+=1
+                nJet=0
+                for jets in Jets:
+                    if jets.p4().pt() > b_cut_val and abs(jets.p4().eta()) <= b_eta_val:
+                        nJet+=1
+
+                if event_decay == "fullhad":
+                    tau_cut_val = fullhad_tau_cut_val
+                    tau_eta_val = fullhad_tau_eta_val
+                elif event_decay == "semimu" or event_decay == "semiele":
+                    tau_cut_val = semihad_tau_cut_val
+                    tau_eta_val = semihad_tau_eta_val
+
+                nTau=0
+                tauindexlist=[]
+                for taus in Taus:
+                    if taus.p4().pt() > tau_cut_val and abs(taus.p4().eta()) <= tau_eta_val:
+                        nTau+=1
+
+                # decay categorization
+                if event_decay == "fullhad":
+                    RecoTaus_dR=[]
+                    RecoAntiTaus_dR=[]
+                    if nTau>=2:
+                        RecoFlag_tau_number = True
+                        index=0
+                        for taus in Taus:
+                            if taus.p4().pt() > tau_cut_val and abs(taus.p4().eta()) <= tau_eta_val:
+                                RecoTaus_dR_val=(sqrt(ROOT.Math.VectorUtil.DeltaR2(taus.p4(), vis_tau_p4)))
+                                RecoAntiTaus_dR_val=(sqrt(ROOT.Math.VectorUtil.DeltaR2(taus.p4(), vis_antitau_p4)))
+                                RecoTaus_dR.append([RecoTaus_dR_val,index])
+                                RecoAntiTaus_dR.append([RecoAntiTaus_dR_val,index])
+                                index+=1
+                        RecoTaus_dR.sort(key=lambda RecoTaus_dR:RecoTaus_dR[0])
+                        RecoAntiTaus_dR.sort(key=lambda RecoAntiTaus_dR:RecoAntiTaus_dR[0])
+                        #distinct taus for both particles
+                        if RecoAntiTaus_dR[0][1] == RecoTaus_dR[0][1]:
+                            if RecoAntiTaus_dR[0][0] < RecoTaus_dR[0][0]:
+                                tauindex = 1
+                                antitauindex = 0
+                            elif RecoAntiTaus_dR[0][0] > RecoTaus_dR[0][0]:
+                                tauindex = 0
+                                antitauindex = 1
+                            elif RecoAntiTaus_dR[0][0] == RecoTaus_dR[0][0]:
+                                if RecoAntiTaus_dR[1][0] < RecoTaus_dR[1][0]:
+                                    antitauindex = 1
+                                    tauindex = 0
+                                elif RecoAntiTaus_dR[1][0] > RecoTaus_dR[1][0]:
+                                    antitauindex = 0
+                                    tauindex = 1
+                                elif RecoAntiTaus_dR[1][0] == RecoTaus_dR[1][0]:
+                                    antitauindex = 0
+                                    tauindex = 1
+                        else:       
+                            tauindex = 0 
+                            antitauindex = 0
+
+                if event_decay == "semimu":
+                    RecoTaus_dR=[]
+                    RecoMuon_dR=[]
+                    #number check
+                    if nTau>=1 and nMu>=1:
+                        RecoFlag_tau_number = True
+                        #match dR
+                        if tau_decay_mode == "Had" and antitau_decay_mode == "Mu":
+                            for taus in Taus:
+                                if taus.p4().pt() > tau_cut_val and abs(taus.p4().eta()) <= tau_eta_val:
+                                    RecoTaus_dR.append(sqrt(ROOT.Math.VectorUtil.DeltaR2(taus.p4(), vis_tau_p4)))
+                            for muons in Muons:
+                                if muons.p4().pt() > mu_tau_cut_val and abs(muons.p4().eta()) <= mu_tau_eta_val:
+                                    RecoMuon_dR.append(sqrt(ROOT.Math.VectorUtil.DeltaR2(muons.p4(), vis_antitau_p4)))
+                            RecoTaus_dR.sort()
+                            RecoMuon_dR.sort()
+                        elif tau_decay_mode == "Mu" and antitau_decay_mode == "Had":
+                            for taus in Taus:
+                                if taus.p4().pt() > tau_cut_val and abs(taus.p4().eta()) <= tau_eta_val:
+                                    RecoTaus_dR.append(sqrt(ROOT.Math.VectorUtil.DeltaR2(taus.p4(), vis_antitau_p4)))
+                            for muons in Muons:
+                                if muons.p4().pt() > mu_tau_cut_val and abs(muons.p4().eta()) <= mu_tau_eta_val:
+                                    RecoMuon_dR.append(sqrt(ROOT.Math.VectorUtil.DeltaR2(muons.p4(), vis_tau_p4)))
+                            RecoTaus_dR.sort()
+                            RecoMuon_dR.sort()
+
+                elif event_decay == "semiele":
+                    RecoTaus_dR=[]
+                    RecoEle_dR=[]
+                    #number check
+                    if nTau>=1 and nEle>=1:
+                        RecoFlag_tau_number = True
+                        #match dR
+                        if tau_decay_mode == "Had" and antitau_decay_mode == "Ele":
+                            for taus in Taus:
+                                if taus.p4().pt() > tau_cut_val and abs(taus.p4().eta()) <= tau_eta_val:
+                                    RecoTaus_dR.append(sqrt(ROOT.Math.VectorUtil.DeltaR2(taus.p4(), vis_tau_p4)))
+                            for ele in Electrons:
+                                if ele.p4().pt() > ele_tau_cut_val and abs(ele.p4().eta()) <= ele_tau_eta_val:
+                                    RecoEle_dR.append(sqrt(ROOT.Math.VectorUtil.DeltaR2(ele.p4(), vis_antitau_p4)))
+                            RecoTaus_dR.sort()
+                            RecoEle_dR.sort()
+                        elif tau_decay_mode == "Ele" and antitau_decay_mode == "Had":
+                            for taus in Taus:
+                                if taus.p4().pt() > tau_cut_val and abs(taus.p4().eta()) <= tau_eta_val:
+                                    RecoTaus_dR.append(sqrt(ROOT.Math.VectorUtil.DeltaR2(taus.p4(), vis_antitau_p4)))
+                            for ele in Electrons:
+                                if ele.p4().pt() > ele_tau_cut_val and abs(ele.p4().eta()) <= ele_tau_eta_val:
+                                    RecoEle_dR.append(sqrt(ROOT.Math.VectorUtil.DeltaR2(ele.p4(), vis_tau_p4)))
+                            RecoTaus_dR.sort()
+                            RecoEle_dR.sort()
+                    
+                if nJet >= 2:
+                    RecoBottom_dR=[]
+                    RecoAntibottom_dR=[]
+                    RecoFlag_jet_number = True
+                    index=0
+                    for jets in Jets:
+                        if jets.p4().pt() > b_cut_val and abs(jets.p4().eta()) <= b_eta_val:
+                            RecoBottom_dR_val=(sqrt(ROOT.Math.VectorUtil.DeltaR2(jets.p4(), bottom_p4)))
+                            RecoAntibottom_dR_val=(sqrt(ROOT.Math.VectorUtil.DeltaR2(jets.p4(), antibottom_p4)))
+                            RecoBottom_dR.append([RecoBottom_dR_val,index])
+                            RecoAntibottom_dR.append([RecoAntibottom_dR_val,index])
+                            index+=1
+                    RecoBottom_dR.sort(key=lambda RecoBottom_dR:RecoBottom_dR[0])
+                    RecoAntibottom_dR.sort(key=lambda RecoAntibottom_dR:RecoAntibottom_dR[0])
+                    #distinct bs for both particles
+                    if RecoAntibottom_dR[0][1] == RecoBottom_dR[0][1]:
+                        if RecoAntibottom_dR[0][0] < RecoBottom_dR[0][0]:
+                            bindex = 1
+                            antibindex = 0
+                        elif RecoAntibottom_dR[0][0] > RecoBottom_dR[0][0]:
+                            bindex = 0
+                            antibindex = 1
+                        elif RecoAntibottom_dR[0][0] == RecoBottom_dR[0][0]:
+                            if RecoAntibottom_dR[1][0] < RecoBottom_dR[1][0]:
+                                antibindex = 1
+                                bindex = 0
+                            elif RecoAntibottom_dR[1][0] > RecoBottom_dR[1][0]:
+                                antibindex = 0
+                                bindex = 1
+                            elif RecoAntibottom_dR[1][0] == RecoBottom_dR[1][0]:
+                                antibindex = 0
+                                bindex = 1
+                    else:       
+                        bindex = 0 
+                        antibindex = 0
                 
             if everything_found and tau_cut and antitau_cut and bottom_cut and antibottom_cut:
                 # print("event made cuts")
+                dRtautau=sqrt(ROOT.Math.VectorUtil.DeltaR2(vis_tau_p4, vis_antitau_p4))
+                dRbb=sqrt(ROOT.Math.VectorUtil.DeltaR2(bottom_p4, antibottom_p4))
+
+                precuts_RECO_jet.Fill(dRbb,weight)
+                precuts_RECO_tau.Fill(dRtautau,weight)
+
+                if RecoFlag_tau_number:
+                    if event_decay == "semimu":
+                        prematch_RECO_semimu.Fill(dRtautau,weight)
+                        if RecoMuon_dR[0] <= Reco_mu_dR_err and RecoTaus_dR[0] <= Reco_tau_dR_err:
+                            postmatch_RECO_semimu.Fill(dRtautau,weight) 
+                    elif event_decay == "semiele":
+                        prematch_RECO_semiele.Fill(dRtautau,weight)
+                        if RecoEle_dR[0] <= Reco_ele_dR_err and RecoTaus_dR[0] <= Reco_tau_dR_err:
+                            postmatch_RECO_semiele.Fill(dRtautau,weight)
+                    elif event_decay == "fullhad":
+                        prematch_RECO_fullhad.Fill(dRtautau,weight)
+                        if RecoAntiTaus_dR[antitauindex][0] <= Reco_tau_dR_err and RecoTaus_dR[tauindex][0] <= Reco_tau_dR_err:
+                            postmatch_RECO_fullhad.Fill(dRtautau,weight)
+                if RecoFlag_jet_number:
+                    prematch_RECO_bs.Fill(dRbb,weight)
+                    if RecoBottom_dR[bindex][0] <= Reco_jet_dR_err and RecoAntibottom_dR[antibindex][0] <= Reco_jet_dR_err:
+                        postmatch_RECO_bs.Fill(dRbb,weight)
+                
+                if RecoFlag_tau_number and RecoFlag_jet_number:
+                    prematch_RECO_tau.Fill(dRtautau,weight)
+                    prematch_RECO_jet.Fill(dRbb,weight)
+                    if RecoBottom_dR[bindex][0] <= Reco_jet_dR_err and RecoAntibottom_dR[antibindex][0] <= Reco_jet_dR_err:
+                        if event_decay == "semimu":
+                            if RecoMuon_dR[0] <= Reco_mu_dR_err and RecoTaus_dR[0] <= Reco_tau_dR_err:
+                                postmatch_RECO_tau.Fill(dRtautau,weight)
+                                postmatch_RECO_jet.Fill(dRbb,weight)
+                        elif event_decay == "semiele":
+                            if RecoEle_dR[0] <= Reco_ele_dR_err and RecoTaus_dR[0] <= Reco_tau_dR_err:
+                                postmatch_RECO_tau.Fill(dRtautau,weight)
+                                postmatch_RECO_jet.Fill(dRbb,weight)
+                        elif event_decay == "fullhad":
+                            if RecoAntiTaus_dR[antitauindex][0] <= Reco_tau_dR_err and RecoTaus_dR[tauindex][0] <= Reco_tau_dR_err:
+                                postmatch_RECO_tau.Fill(dRtautau,weight)
+                                postmatch_RECO_jet.Fill(dRbb,weight)
+
                 tau_pt.Fill(vis_tau_p4.pt(),weight)
                 tau_pt.Fill(vis_antitau_p4.pt(),weight)
                 tau_eta.Fill(vis_tau_p4.eta(),weight)
@@ -547,9 +821,9 @@ for masspoints in infos:
                 LH_eta.Fill(LightHiggs_p4.eta(),weight)
                 SM_eta.Fill(SMHiggs_p4.eta(),weight)
             
-                dR_b_b = sqrt(ROOT.Math.VectorUtil.DeltaR2(bottom_p4, antibottom_p4))
+                dR_b_b = dRbb
                 bquark_dR.Fill(dR_b_b,weight)
-                dR_tau_tau = sqrt(ROOT.Math.VectorUtil.DeltaR2(vis_tau_p4, vis_antitau_p4))
+                dR_tau_tau = dRtautau
                 tau_dR.Fill(dR_tau_tau,weight)
                 dR_hsm_h = sqrt(ROOT.Math.VectorUtil.DeltaR2(SMHiggs_p4, LightHiggs_p4))
                 higgs_dR.Fill(dR_hsm_h,weight)
@@ -582,6 +856,11 @@ for masspoints in infos:
     bquark_dR.Scale(1./bquark_dR.Integral())
 
     output_file = ROOT.TFile.Open(outpath+"/"+"GenStudies_"+"MH_"+mH+"_Mh_"+mh+".root","RECREATE")
+
+    # output_file.WriteTObject(Reco_Tau_dR)
+    # output_file.WriteTObject(Reco_Mu_dR)
+    # output_file.WriteTObject(Reco_Ele_dR)
+    # output_file.WriteTObject(Reco_Bottom_dR)
 
     output_file.WriteTObject(event_counter)
     output_file.WriteTObject(found_counter)
@@ -628,5 +907,22 @@ output_file.WriteTObject(drhh_mh_MH)
 output_file.WriteTObject(ptHH_mh_MH)
 output_file.WriteTObject(ptLH_mh_MH)
 output_file.WriteTObject(ptSMH_mh_MH)
+
+output_file.WriteTObject(prematch_RECO_tau)
+output_file.WriteTObject(postmatch_RECO_tau)
+output_file.WriteTObject(prematch_RECO_jet)
+output_file.WriteTObject(postmatch_RECO_jet)
+output_file.WriteTObject(prematch_RECO_bs)
+output_file.WriteTObject(postmatch_RECO_bs)
+output_file.WriteTObject(prematch_RECO_fullhad)
+output_file.WriteTObject(postmatch_RECO_fullhad)
+output_file.WriteTObject(prematch_RECO_semiele)
+output_file.WriteTObject(postmatch_RECO_semiele)
+output_file.WriteTObject(prematch_RECO_semimu)
+output_file.WriteTObject(postmatch_RECO_semimu)
+
+output_file.WriteTObject(precuts_RECO_jet)
+output_file.WriteTObject(precuts_RECO_tau)
+
 output_file.Close()
 
