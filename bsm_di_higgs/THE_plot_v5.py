@@ -616,12 +616,15 @@ ratio = width/height
 fig = plt.figure(figsize=(width,height))
 gs  = gridspec.GridSpec(1, 2, width_ratios=[width, 1] ,wspace=0.02)
 gs1 = GridSpecFromSubplotSpec(1, 1, subplot_spec=gs[0])
-gs2 = GridSpecFromSubplotSpec(3, 1, height_ratios=[1,1,1], subplot_spec=gs[1],hspace=0.125)
+# gs2 = GridSpecFromSubplotSpec(3, 1, height_ratios=[1,1,1], subplot_spec=gs[1],hspace=0.125)
+gs2 = GridSpecFromSubplotSpec(2, 1, height_ratios=[1,1], subplot_spec=gs[1],hspace=0.125)
 # plt.subplots_adjust(wspace=0.02)
 ax = fig.add_subplot(gs1[0])
-ax1 = fig.add_subplot(gs2[0])
-ax2 = fig.add_subplot(gs2[2])
-ax3 = fig.add_subplot(gs2[1])
+# ax1 = fig.add_subplot(gs2[0])
+# ax2 = fig.add_subplot(gs2[2])
+# ax3 = fig.add_subplot(gs2[1])
+ax2 = fig.add_subplot(gs2[1])
+ax3 = fig.add_subplot(gs2[0])
 
 plt.figtext(0.025, 0.95, 'CMS simulation', fontdict=None,size=60,weight='bold')
 plt.figtext(0.025, 0.92, 'work in progress', fontdict=None,size=50,weight='bold')
@@ -657,7 +660,7 @@ for point in plots:
                         tau_counter[point[1].index(mH)],comb_cut_counter[point[1].index(mH)],fulllep_found[point[1].index(mH)]]
         counter_tuple.append(counter_list)
 
-mhlist,MHlist,tlist,blist=zip(*mean_quadruplets)
+# mhlist,MHlist,tlist,blist=zip(*mean_quadruplets)
 
 dRbcolor='forestgreen'
 pTbcolor='limegreen'
@@ -710,8 +713,8 @@ for quad in counter_tuple:
     # ax.text(MHposition-0.25, mhposition+0.05, "{}".format(format(com_eff, ".2f")), style='italic',color='black')
     # ax.text(MHposition-0.4, mhposition-0.35, "{equa}".format(nFound=format( found,".0f") , nLep = format(fulllep_found ,".0f"), equa =format(number_events ,".0f")), style='italic',color=dRtcolor,)
     ax.add_patch(Rectangle((MHposition-0.5, mhposition-0.5), 1, 1, linewidth=1, edgecolor='black', facecolor='white',alpha=1))
-    if com_eff <= maxval:
-        ax.add_patch(Rectangle((MHposition-0.5, mhposition-0.5), 1, 1, linewidth=1, edgecolor='black', facecolor=cmap_eff(com_eff/maxval),alpha=1))
+    # if com_eff <= maxval:
+    #     ax.add_patch(Rectangle((MHposition-0.5, mhposition-0.5), 1, 1, linewidth=1, edgecolor='black', facecolor=cmap_eff(com_eff/maxval),alpha=1))
 
 for quad in median_quadruplets:
     MHindex=plots[0][1].index(quad[1])
@@ -740,23 +743,23 @@ ax.set_yticks(range(len(wanted_mhS_2D)+1))
 ax.set_yticklabels(ytix,fontsize=fontsize)
 # ax.grid(which='minor', alpha=0.5,linestyle='--')
 
-ax.text(0.5,len(wanted_mhS_2D)-5, 'median $\Delta$R(ττ)$< 0.5$', style='italic', fontsize=fontsize, color='black',
+ax.text(0.5,len(wanted_mhS_2D)-3, 'median $\Delta$R(ττ)$< 0.5$', style='italic', fontsize=fontsize, color='black',
         bbox={'facecolor': cmap_tau(0.5), 'alpha': 0.5, 'pad': 10})
-ax.text(0.5,len(wanted_mhS_2D)-3, 'median $\Delta$R(bb)$< 0.4$', style='italic', fontsize=fontsize, color='black',
+ax.text(0.5,len(wanted_mhS_2D)-1, 'median $\Delta$R(bb)$< 0.4$', style='italic', fontsize=fontsize, color='black',
         bbox={'facecolor': cmap_b(0.5), 'alpha': 0.5, 'pad': 10})
-ax.text(0.5,len(wanted_mhS_2D)-1, '$\epsilon_{cuts}$< 0.2', style='italic', fontsize=fontsize, color='black',
-        bbox={'facecolor': cmap_eff(0.5), 'alpha': 0.5, 'pad': 10})
+# ax.text(0.5,len(wanted_mhS_2D)-1, '$\epsilon_{cuts}$< 0.2', style='italic', fontsize=fontsize, color='black',
+#         bbox={'facecolor': cmap_eff(0.5), 'alpha': 0.5, 'pad': 10})
 
 ax.yaxis.label.set_fontsize(fontsize+10)
 ax.xaxis.label.set_fontsize(fontsize+10)
 
-norm_eff = mpl.colors.Normalize(vmin=0, vmax=maxval)
-cb1 = mpl.colorbar.ColorbarBase(ax1, cmap=cmap_eff,
-                                norm=norm_eff,
-                                orientation='vertical')
-cb1.set_label('$\epsilon_{cuts}$', rotation='vertical', fontsize=fontsize+10, position=(0,0.5))
-cb1.ax.tick_params(labelsize=fontsize)
-cb1.ax.locator_params(nbins=2)
+# norm_eff = mpl.colors.Normalize(vmin=0, vmax=maxval)
+# cb1 = mpl.colorbar.ColorbarBase(ax1, cmap=cmap_eff,
+#                                 norm=norm_eff,
+#                                 orientation='vertical')
+# cb1.set_label('$\epsilon_{cuts}$', rotation='vertical', fontsize=fontsize+10, position=(0,0.5))
+# cb1.ax.tick_params(labelsize=fontsize)
+# cb1.ax.locator_params(nbins=2)
 
 norm_tau = mpl.colors.Normalize(vmin=0, vmax=0.5)
 cb2 = mpl.colorbar.ColorbarBase(ax2, cmap=cmap_tau,

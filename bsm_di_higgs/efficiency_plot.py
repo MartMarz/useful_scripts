@@ -43,11 +43,12 @@ def ratios(histo1,histo2,leg, outPath, tau=False, single=False):
         histo2.SetLineColor(ROOT.kGreen)
 
     histo2.SetLineWidth(2)
-    histo2.GetYaxis().SetTitle("Efficiency")
+    histo1.SetLineWidth(2)
     histo2.SetTitle("")
     histo1.SetTitle("")
 
     if not single: 
+        histo2.GetYaxis().SetTitle("Efficiency")
         histo2.Divide(histo1)
         histo2.Draw("hist")
         tmp = histo2.Clone()
@@ -55,7 +56,7 @@ def ratios(histo1,histo2,leg, outPath, tau=False, single=False):
         tmp.SetLineWidth(1)
         tmp.Draw("same, E0")
 
-        legend = ROOT.TLegend(0.7,0.9,0.95,0.95)
+        legend = ROOT.TLegend(0.5,0.9,0.95,0.95)
         legend.AddEntry(histo2, leg, "l")
         legend.Draw()
         legend.SetTextSize(0.03)
@@ -68,8 +69,8 @@ def ratios(histo1,histo2,leg, outPath, tau=False, single=False):
         histo1.SetLineColor(ROOT.kBlack)
         histo2.SetLineColor(ROOT.kRed)
         legend = ROOT.TLegend(0.5,0.9,0.95,0.99)
-        legend.AddEntry(histo2, "pre "+leg, "l")
-        legend.AddEntry(histo1, "post "+leg, "l")
+        legend.AddEntry(histo2, "post "+leg, "l")
+        legend.AddEntry(histo1, "pre "+leg, "l")
         legend.Draw()
         legend.SetTextSize(0.03)
 
@@ -161,8 +162,8 @@ ratios(precuts_jet_dR,prematch_jet_dR,"all RECO cuts",check+"/eff_precuts_premat
 ratios(precuts_tau_dR,postmatch_tau_dR,"all RECO cuts and matched",check+"/eff_precuts_postmatch_tau",tau=True)
 ratios(precuts_jet_dR,postmatch_jet_dR,"all RECO cuts and matched",check+"/eff_precuts_postmatch_b")
 #prematch to dR matching 
-ratios(prematch_tau_dR,postmatch_tau_dR,"tau and b matching",check+"/eff_prematch_postmatch_tau",tau=True)
-ratios(prematch_jet_dR,postmatch_jet_dR,"tau and b matching",check+"/eff_prematch_postmatch_b")
+ratios(prematch_tau_dR,postmatch_tau_dR,"tau and b matched",check+"/eff_prematch_postmatch_tau",tau=True)
+ratios(prematch_jet_dR,postmatch_jet_dR,"tau and b matched",check+"/eff_prematch_postmatch_b")
 #splitted
 ratios(prematch_b_dR,postmatch_b_dR,"b matched",check+"/eff_prematch_postmatch_bquarks")
 ratios(prematch_semimu_dR,postmatch_semimu_dR,"tau and mu matched",check+"/eff_prematch_postmatch_taumu",tau=True)
