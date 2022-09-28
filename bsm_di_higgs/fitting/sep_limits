@@ -1,0 +1,363 @@
+baseline
+600GeV
+hSbb
+Expected  2.5%: r < 0.0210
+Expected 16.0%: r < 0.0283
+Expected 50.0%: r < 0.0396
+Expected 84.0%: r < 0.0550
+Expected 97.5%: r < 0.0739
+
+hStautau
+Expected  2.5%: r < 0.0276
+Expected 16.0%: r < 0.0369
+Expected 50.0%: r < 0.0513
+Expected 84.0%: r < 0.0713
+Expected 97.5%: r < 0.0958
+
+700GeV
+hSbb
+Expected  2.5%: r < 0.0166
+Expected 16.0%: r < 0.0217
+Expected 50.0%: r < 0.0303
+Expected 84.0%: r < 0.0423
+Expected 97.5%: r < 0.0575
+
+hStautau
+Expected  2.5%: r < 0.0313
+Expected 16.0%: r < 0.0418
+Expected 50.0%: r < 0.0581
+Expected 84.0%: r < 0.0817
+Expected 97.5%: r < 0.1096
+
+800GeV
+hSbb
+Expected  2.5%: r < 0.0136
+Expected 16.0%: r < 0.0178
+Expected 50.0%: r < 0.0249
+Expected 84.0%: r < 0.0348
+Expected 97.5%: r < 0.0473
+
+hStautau
+Expected  2.5%: r < 0.0421
+Expected 16.0%: r < 0.0562
+Expected 50.0%: r < 0.0781
+Expected 84.0%: r < 0.1096
+Expected 97.5%: r < 0.1471
+
+900GeV
+hSbb
+Expected  2.5%: r < 0.0109
+Expected 16.0%: r < 0.0146
+Expected 50.0%: r < 0.0200
+Expected 84.0%: r < 0.0286
+Expected 97.5%: r < 0.0387
+
+hStautau
+Expected  2.5%: r < 0.0555
+Expected 16.0%: r < 0.0737
+Expected 50.0%: r < 0.1030
+Expected 84.0%: r < 0.1441
+Expected 97.5%: r < 0.1937
+
+1000GeV
+hSbb
+Expected  2.5%: r < 0.0080
+Expected 16.0%: r < 0.0103
+Expected 50.0%: r < 0.0151
+Expected 84.0%: r < 0.0214
+Expected 97.5%: r < 0.0287
+
+hStautau
+Expected  2.5%: r < 0.0614
+Expected 16.0%: r < 0.0822
+Expected 50.0%: r < 0.1147
+Expected 84.0%: r < 0.1609
+Expected 97.5%: r < 0.2160
+
+1200GeV
+hSbb
+Expected  2.5%: r < 0.0060
+Expected 16.0%: r < 0.0083
+Expected 50.0%: r < 0.0112
+Expected 84.0%: r < 0.0166
+Expected 97.5%: r < 0.0224
+
+hStautau
+Expected  2.5%: r < 0.1019
+Expected 16.0%: r < 0.1359
+Expected 50.0%: r < 0.1890
+Expected 84.0%: r < 0.2643
+Expected 97.5%: r < 0.3540
+
+split
+600GeV
+hSbb
+Expected  2.5%: r < 0.0171
+Expected 16.0%: r < 0.0235
+Expected 50.0%: r < 0.0327
+Expected 84.0%: r < 0.0465
+Expected 97.5%: r < 0.0635
+
+hStautau
+Expected  2.5%: r < 0.0282
+Expected 16.0%: r < 0.0376
+Expected 50.0%: r < 0.0522
+Expected 84.0%: r < 0.0727
+Expected 97.5%: r < 0.0979
+
+700GeV
+hSbb
+Expected  2.5%: r < 0.0127
+Expected 16.0%: r < 0.0173
+Expected 50.0%: r < 0.0239
+Expected 84.0%: r < 0.0342
+Expected 97.5%: r < 0.0472
+
+hStautau
+Expected  2.5%: r < 0.0316
+Expected 16.0%: r < 0.0421
+Expected 50.0%: r < 0.0586
+Expected 84.0%: r < 0.0824
+Expected 97.5%: r < 0.1105
+
+800GeV
+hSbb
+Expected  2.5%: r < 0.0091
+Expected 16.0%: r < 0.0123
+Expected 50.0%: r < 0.0171
+Expected 84.0%: r < 0.0250
+Expected 97.5%: r < 0.0343
+
+hStautau
+Expected  2.5%: r < 0.0455
+Expected 16.0%: r < 0.0604
+Expected 50.0%: r < 0.0845
+Expected 84.0%: r < 0.1185
+Expected 97.5%: r < 0.1590
+
+900GeV
+hSbb
+Expected  2.5%: r < 0.0070
+Expected 16.0%: r < 0.0097
+Expected 50.0%: r < 0.0132
+Expected 84.0%: r < 0.0195
+Expected 97.5%: r < 0.0269
+
+hStautau
+Expected  2.5%: r < 0.0619
+Expected 16.0%: r < 0.0821
+Expected 50.0%: r < 0.1147
+Expected 84.0%: r < 0.1605
+Expected 97.5%: r < 0.2157
+
+1000GeV
+hSbb
+Expected  2.5%: r < 0.0051
+Expected 16.0%: r < 0.0067
+Expected 50.0%: r < 0.0103
+Expected 84.0%: r < 0.0145
+Expected 97.5%: r < 0.0200
+
+hStautau
+Expected  2.5%: r < 0.0598
+Expected 16.0%: r < 0.0801
+Expected 50.0%: r < 0.1118
+Expected 84.0%: r < 0.1568
+Expected 97.5%: r < 0.2105
+
+1200GeV
+hSbb
+Expected  2.5%: r < 0.0041
+Expected 16.0%: r < 0.0053
+Expected 50.0%: r < 0.0073
+Expected 84.0%: r < 0.0106
+Expected 97.5%: r < 0.0153
+
+hStautau
+Expected  2.5%: r < 0.1084
+Expected 16.0%: r < 0.1439
+Expected 50.0%: r < 0.2012
+Expected 84.0%: r < 0.2814
+Expected 97.5%: r < 0.3781
+
+ak8
+600GeV
+hSbb
+Expected  2.5%: r < 0.0168
+Expected 16.0%: r < 0.0225
+Expected 50.0%: r < 0.0308
+Expected 84.0%: r < 0.0440
+Expected 97.5%: r < 0.0591
+
+hStautau
+Expected  2.5%: r < 0.0195
+Expected 16.0%: r < 0.0262
+Expected 50.0%: r < 0.0366
+Expected 84.0%: r < 0.0515
+Expected 97.5%: r < 0.0697
+
+700GeV
+hSbb
+Expected  2.5%: r < 0.0137
+Expected 16.0%: r < 0.0187
+Expected 50.0%: r < 0.0259
+Expected 84.0%: r < 0.0362
+Expected 97.5%: r < 0.0491
+
+hStautau
+Expected  2.5%: r < 0.0192
+Expected 16.0%: r < 0.0258
+Expected 50.0%: r < 0.0361
+Expected 84.0%: r < 0.0508
+Expected 97.5%: r < 0.0688
+
+800GeV
+hSbb
+Expected  2.5%: r < 0.0115
+Expected 16.0%: r < 0.0153
+Expected 50.0%: r < 0.0210
+Expected 84.0%: r < 0.0300
+Expected 97.5%: r < 0.0409
+
+hStautau
+Expected  2.5%: r < 0.0233
+Expected 16.0%: r < 0.0314
+Expected 50.0%: r < 0.0439
+Expected 84.0%: r < 0.0622
+Expected 97.5%: r < 0.0842
+
+900GeV
+hSbb
+Expected  2.5%: r < 0.0104
+Expected 16.0%: r < 0.0136
+Expected 50.0%: r < 0.0190
+Expected 84.0%: r < 0.0272
+Expected 97.5%: r < 0.0363
+
+hStautau
+Expected  2.5%: r < 0.0288
+Expected 16.0%: r < 0.0387
+Expected 50.0%: r < 0.0542
+Expected 84.0%: r < 0.0762
+Expected 97.5%: r < 0.1036
+
+1000GeV
+hSbb
+Expected  2.5%: r < 0.0075
+Expected 16.0%: r < 0.0104
+Expected 50.0%: r < 0.0142
+Expected 84.0%: r < 0.0200
+Expected 97.5%: r < 0.0276
+
+hStautau
+Expected  2.5%: r < 0.0366
+Expected 16.0%: r < 0.0489
+Expected 50.0%: r < 0.0688
+Expected 84.0%: r < 0.0966
+Expected 97.5%: r < 0.1305
+
+1200GeV
+hSbb
+Expected  2.5%: r < 0.0060
+Expected 16.0%: r < 0.0076
+Expected 50.0%: r < 0.0112
+Expected 84.0%: r < 0.0159
+Expected 97.5%: r < 0.0213
+
+hStautau
+Expected  2.5%: r < 0.0614
+Expected 16.0%: r < 0.0818
+Expected 50.0%: r < 0.1147
+Expected 84.0%: r < 0.1609
+Expected 97.5%: r < 0.2175
+
+boosted
+600GeV
+hSbb
+Expected  2.5%: r < 0.0169
+Expected 16.0%: r < 0.0229
+Expected 50.0%: r < 0.0317
+Expected 84.0%: r < 0.0444
+Expected 97.5%: r < 0.0595
+
+hStautau
+Expected  2.5%: r < 0.0203
+Expected 16.0%: r < 0.0270
+Expected 50.0%: r < 0.0376
+Expected 84.0%: r < 0.0529
+Expected 97.5%: r < 0.0716
+
+700GeV
+hSbb
+Expected  2.5%: r < 0.0127
+Expected 16.0%: r < 0.0169
+Expected 50.0%: r < 0.0239
+Expected 84.0%: r < 0.0335
+Expected 97.5%: r < 0.0448
+
+hStautau
+Expected  2.5%: r < 0.0213
+Expected 16.0%: r < 0.0284
+Expected 50.0%: r < 0.0396
+Expected 84.0%: r < 0.0563
+Expected 97.5%: r < 0.0755
+
+800GeV
+hSbb
+Expected  2.5%: r < 0.0093
+Expected 16.0%: r < 0.0127
+Expected 50.0%: r < 0.0171
+Expected 84.0%: r < 0.0244
+Expected 97.5%: r < 0.0335
+
+hStautau
+Expected  2.5%: r < 0.0276
+Expected 16.0%: r < 0.0369
+Expected 50.0%: r < 0.0513
+Expected 84.0%: r < 0.0721
+Expected 97.5%: r < 0.0980
+
+900GeV
+hSbb
+Expected  2.5%: r < 0.0075
+Expected 16.0%: r < 0.0104
+Expected 50.0%: r < 0.0142
+Expected 84.0%: r < 0.0200
+Expected 97.5%: r < 0.0276
+
+hStautau
+Expected  2.5%: r < 0.0363
+Expected 16.0%: r < 0.0486
+Expected 50.0%: r < 0.0679
+Expected 84.0%: r < 0.0957
+Expected 97.5%: r < 0.1290
+
+1000GeV
+hSbb
+Expected  2.5%: r < 0.0054
+Expected 16.0%: r < 0.0072
+Expected 50.0%: r < 0.0103
+Expected 84.0%: r < 0.0145
+Expected 97.5%: r < 0.0200
+
+hStautau
+Expected  2.5%: r < 0.0358
+Expected 16.0%: r < 0.0479
+Expected 50.0%: r < 0.0669
+Expected 84.0%: r < 0.0949
+Expected 97.5%: r < 0.1284
+
+1200GeV
+hSbb
+Expected  2.5%: r < 0.0041
+Expected 16.0%: r < 0.0053
+Expected 50.0%: r < 0.0073
+Expected 84.0%: r < 0.0106
+Expected 97.5%: r < 0.0146
+
+hStautau
+Expected  2.5%: r < 0.0547
+Expected 16.0%: r < 0.0736
+Expected 50.0%: r < 0.1030
+Expected 84.0%: r < 0.1453
+Expected 97.5%: r < 0.1972
