@@ -1,0 +1,132 @@
+python bsm_di_higgs_Gen_Studies_v3.py -m $tuple -o test --maxevents 10000
+python efficiency_plot.py -i effiencey_histos_precuts/ -o _22_efficiency_plots
+python3 THE_plot_v5.py -i counter_histos/ -o _22_THE_plots
+
+
+cmsDriver.py --python_filename nanoaod_cfg.py --eventcontent NANOAODSIM --customise Configuration/DataProcessing/Utils.addMonitoring --datatier NANOAODSIM --fileout file:output_nanoaod.root --conditions auto:phase1_2018_realistic --step NANO --filein file:/storage/gridka-nrg/jbechtel/gc_storage/Autumn18/miniaod/M900_h1_M125_tautau_h2_M250_bb/HIG-RunIIAutumn18MiniAOD-00398_1.root --era Run2_2018 --no_exec --mc -n 100
+cmsRun
+
+#karim scripts
+#evaluation
+python scripts/generateSubmitScripts.py -n 25000 --mode Evaluation -c configs/evaluate_bsm_dnn.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/27_7/DNN -s debug_27_7_dnn_v6 --apply-selection True -m models/bsm_analysis.yml /nfs/dust/cms/user/mmarz/tuple/snape/complete/FatJetClean/2018/*pythia8 /nfs/dust/cms/user/mmarz/tuple/snape/complete/FatJetClean/2018/Signal*
+
+#gen Weights
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsmWeights.py -o /nfs/dust/cms/user/mmarz/bsm_QCD/UL/friends/2018/friend_genWeights/ -s scripts_bsm_QCD_gen -y 2018 -r "" /nfs/dust/cms/user/mmarz/tuple/snape/incomplete/bsm_QCD/2018/*pythia8
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsmWeights.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/friend_genWeights/ -s scripts_NMSSM_gen -y 2018 -r "" /nfs/dust/cms/group/ttx-kit/NMSSM/NMSSM_24_5/2018/*pythia8 /nfs/dust/cms/group/ttx-kit/NMSSM/NMSSM_24_5/2018/Signal*
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsmWeights.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/3_6/friend_genWeights/ -s scripts_NMSSM_gen -y 2018 -r "" /nfs/dust/cms/group/ttx-kit/NMSSM/NMSSM_3_6_22/2018/*pythia8 /nfs/dust/cms/group/ttx-kit/NMSSM/NMSSM_3_6_22/2018/Signal*
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsmWeights.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/30_6/friend_genWeights/ -s scripts_NMSSM_gen -y 2018 -r "" /nfs/dust/cms/user/mmarz/tuple/snape/NMSSM_28_6/2018/*pythia8 /nfs/dust/cms/user/mmarz/tuple/snape/NMSSM_28_6/2018/Signal*
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsmWeights.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/14_7/friend_genWeights/ -s scripts_14_7_gen -y 2018 -r "" /nfs/dust/cms/user/mmarz/tuple/snape/complete/FatJetClean/2018/*pythia8 /nfs/dust/cms/user/mmarz/tuple/snape/complete/FatJetClean/2018/Signal* 
+
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsmWeights.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/19_8/friend_genWeights/ -s scripts_19_8_gen -y 2018 -r "" /nfs/dust/cms/user/mmarz/tuple/snape/incomplete/final_16_8/2018/*pythia8 /nfs/dust/cms/user/mmarz/tuple/snape/incomplete/final_16_8/2018/Signal*
+
+
+#bTag Weights
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsm_itFit_test.py -o /nfs/dust/cms/user/mmarz/bsm_QCD/UL/friends/2018/friend_bTagWeights/ -s scripts_bsm_QCD_b -j True -y 2018 -r "" /nfs/dust/cms/user/mmarz/tuple/snape/incomplete/bsm_QCD/2018/*pythia8
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsm_itFit_test.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/friend_bTagWeights/ -s scripts_NMSSM_b -j True -y 2018 -r "" /nfs/dust/cms/group/ttx-kit/NMSSM/NMSSM_24_5/2018/*pythia8 /nfs/dust/cms/group/ttx-kit/NMSSM/NMSSM_24_5/2018/Signal*
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsm_itFit_test.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/3_6/friend_bTagWeights/ -s scripts_NMSSM_b -j True -y 2018 -r "" /nfs/dust/cms/group/ttx-kit/NMSSM/NMSSM_3_6_22/2018/*pythia8 /nfs/dust/cms/group/ttx-kit/NMSSM/NMSSM_3_6_22/2018/Signal*
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsm_itFit_test.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/30_6/friend_bTagWeights/ -s scripts_30_6_b -j True -y 2018 -r "" /nfs/dust/cms/user/mmarz/tuple/snape/NMSSM_28_6/2018/*pythia8 /nfs/dust/cms/user/mmarz/tuple/snape/NMSSM_28_6/2018/Signal*
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsm_itFit_test.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/14_7/friend_bTagWeights/ -s scripts_14_7_b -j True -y 2018 -r "" /nfs/dust/cms/user/mmarz/tuple/snape/complete/FatJetClean/2018/*pythia8 /nfs/dust/cms/user/mmarz/tuple/snape/complete/FatJetClean/2018/Signal*
+
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsm_itFit_test.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/19_8/friend_bTagWeights/ -s scripts_19_8_b -j True -y 2018 -r "" /nfs/dust/cms/user/mmarz/tuple/snape/incomplete/final_16_8/2018/*pythia8 /nfs/dust/cms/user/mmarz/tuple/snape/incomplete/final_16_8/2018/Signal*
+
+#lep Weights
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsm_lepWeightsUL.py -o /nfs/dust/cms/user/mmarz/bsm_QCD/UL/friends/2018/friend_lepWeights/ -s scripts_bsm_QCD_lep -y 2018 -r "" /nfs/dust/cms/user/mmarz/tuple/snape/incomplete/bsm_QCD/2018/*pythia8
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsm_lepWeightsUL.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/friend_lepWeights/ -s scripts_NMSSM_lep  -y 2018 -r "" /nfs/dust/cms/group/ttx-kit/NMSSM/NMSSM_24_5/2018/*pythia8 /nfs/dust/cms/group/ttx-kit/NMSSM/NMSSM_24_5/2018/Signal*
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsm_lepWeightsUL.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/3_6/friend_lepWeights/ -s scripts_NMSSM_lep  -y 2018 -r "" /nfs/dust/cms/group/ttx-kit/NMSSM/NMSSM_3_6_22/2018/*pythia8 /nfs/dust/cms/group/ttx-kit/NMSSM/NMSSM_3_6_22/2018/Signal*
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsm_lepWeightsUL.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/30_6/friend_lepWeights/ -s scripts_30_6_lep  -y 2018 -r "" /nfs/dust/cms/user/mmarz/tuple/snape/NMSSM_28_6/2018/*pythia8 /nfs/dust/cms/user/mmarz/tuple/snape/NMSSM_28_6/2018/Signal*
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsm_lepWeightsUL.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/14_7/friend_lepWeights/ -s scripts_14_7_lep  -y 2018 -r "" /nfs/dust/cms/user/mmarz/tuple/snape/complete/FatJetClean/2018/*pythia8 /nfs/dust/cms/user/mmarz/tuple/snape/complete/FatJetClean/2018/Signal*
+
+python scripts/generateSubmitScripts.py -n 25000 --mode Calculation -c configs/calculate_bsm_lepWeightsUL.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/19_8/friend_lepWeights/ -s scripts_19_8_lep  -y 2018 -r "" /nfs/dust/cms/user/mmarz/tuple/snape/incomplete/final_16_8/2018/*pythia8 /nfs/dust/cms/user/mmarz/tuple/snape/incomplete/final_16_8/2018/Signal*
+
+
+python scripts/checkFiles.py --mode Calculation -o /nfs/dust/cms/user/mmarz/DY_variables/UL/friends/2018/friend_genWeights/ -s scripts_DY_variables_gen -r "" /nfs/dust/cms/user/mmarz/tuple/snape/complete/DY_variables_Flag/2018/*pythia8_1
+
+# datasets
+python make_yml_dataset.py -o ../datasets/bsm_UL_v9.yml -i ../rawdata/UL_data_SingleMu_v9.yml -i ../rawdata/UL_bsm_di_higgs_v9.yml -i ../rawdata/UL_tt_v9.yml -i ../rawdata/UL_ST_v9.yml -i ../rawdata/UL_DYLL_HTbinned_v9.yml -i ../rawdata/UL_Wjets_HTbinned_v9.yml -i ../rawdata/UL_Diboson_v9.yml -i ../rawdata/UL_QCD_v9.yml -i ../rawdata/UL_bsm_di_higgs_signal.yml
+
+#hogwarts
+python analysis.py -a ../analyses/bsm_di_higgs/bsm_di_higgs_Analysis.py -o bsm_QCD --era 2018
+python analysis.py -a ../analyses/bsm_di_higgs/bsm_di_higgs_Analysis_SB.py -o boosted_hypo_4_7 --era 2018
+
+python analysis.py -a ../analyses/bsm_di_higgs/bsm_di_higgs_Analysis_DNN.py -o dnn/600_nodR_0AK_normalVars --era 2018 
+
+#hadden
+python hadd_jobs.py -i ../workdir/bsm_20_5_22 -o /nfs/dust/cms/group/ttx-kit/NMSSM -f  
+
+#smeacol
+python make_crab_configs.py -i ../datasets/DY_HT_binned.yml -o ../workdir/DY_HT_binned -t DYbinned -r ul -u mmarz -c config_bsm_di_higgs_MuTau --submit
+python make_crab_configs.py -c config_bsm_di_higgs_MuTau -i ../datasets/bsm_14_1_22.yml -o ../workdir/bsm_jetsel_tec -t jettec -u mmarz -r ul,2018 --TAU All --doFatJetJECs True --submit
+python crab_script.py -c config_GEN_bsm_di_higgs_MuTau -o ../workdir/local_debug --TAU All --runType ul -y 2018 --local --JEC None --doFatJetJECs True -n 100
+python crab_script.py -c config_GEN_bsm_di_higgs_MuTau -o ../workdir/local_debug --TAU All --runType ul -y 2018 --local --JEC None -n 100
+python make_crab_configs.py -c config_GEN_bsm_di_higgs_MuTau -i ../datasets/private_bsm_signals.yml -o ../workdir/private_signals -t private_signals -u mmarz -r ul,2018 --TAU All --submit
+python make_crab_configs.py -c config_GEN_bsm_di_higgs_MuTau -i ../datasets/UL_bsm_di_higgs_v9.yml -o ../workdir/NMSSM_3_6_22 -t NMSSM_3_6_22 -u mmarz -r ul,2018 --TAU All --submit
+python make_crab_configs.py -c config_GEN_bsm_di_higgs_MuTau -i ../datasets/bsm_UL_v9.yml -o ../workdir/Signals_15_8 -t Signals_15_8 -u mmarz -r ul,2018 --eventsPerJob 25000 --TAU All --doFatJetJECs True --submit
+python make_crab_configs.py -c config_GEN_bsm_di_higgs_MuTau -i ../datasets/bsm_UL_16_8.yml -o ../workdir/final_ntuple_16_8 -t final_16_8 -u mmarz -r ul,2018 --eventsPerJob 50000 --TAU All --doFatJetJECs True --submit
+
+#local TEC
+python crab_script.py -c config_GEN_bsm_di_higgs_MuTau -o ../workdir/localTauCorrFalse -y 2018 --JEC None --runType ul --TAU All --local
+
+#shifts
+python TEC_ntuple_compare.py -i ../snape/complete/ULtautaubb/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8 -c ../snape/incomplete/bsm_QCD/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8 -o ../TEC_plots
+python efficiencyShifts.py -i $workdir/local_hypoths/ -o /nfs/dust/cms/user/mmarz/tuple/eff_shifts
+
+#hadd
+hadd combined.root nanoAOD_M*
+
+python make_crab_configs.py -c config_GEN_bsm_di_higgs_MuTau -i ../datasets/UL_bsm_di_higgs_v9.yml -o ../workdir/bsm_20_5_22 -t bsm_samples -u mmarz -r ul,2018 --TAU All --submit
+
+#Draco
+python preprocessing_bsm_di_higgs_v3.py -o /nfs/dust/cms/user/mmarz/panda/22_7 -v bsm_variables -t Events
+scp -r 28_7 mmarz@lx92.etp.kit.edu:/work/mmarz/pandas/28_7
+scp -r mmarz@lx92.etp.kit.edu:/work/mmarz/DRACO-MLfoy/workdir/twoSig_debug_ge2j_ge1t twoSig_debug_ge2j_ge1t
+python train_bsm_v2.py -c ge2j_ge1t_ge1A -i /work/mmarz/pandas/28_7/ -v bsm_variables --netconfig=BSM -p --printroc --privatework --signalclass=Sig_MH600_hSBB,Sig_MH600_hSTauTau -o debug -e 1000
+
+python train_bsm_v2.py -c ge2j_ge1t_ge0A -i /work/mmarz/pandas/23_8/ -v bsm_variables_noboosted --netconfig=BSM -p --printroc --privatework --signalclass=MH600_BB_bos,MH600_BB_res,MH600_TauTau -o 600GeV_normal_vars -e 1
+
+python train_bsm_v2.py -c ge2j_ge1t_ge0A -i /work/mmarz/pandas/25_8/ -v bsm_variables_noboosted --netconfig=BSM -p --printroc --privatework --signalclass=MH600_BB,MH600_TauTau -o 600GeV_nodR_normal_vars -e 1000
+python train_bsm_v2.py -c ge2j_ge1t_ge0A -i /work/mmarz/pandas/25_8/ -v bsm_variables_boosted --netconfig=BSM -p --printroc --privatework --signalclass=MH600_BB,MH600_TauTau -o 600GeV_nodR_boosted_vars -e 1000
+
+import pandas as pd
+store = pd.HDFStore( "~/_dnn.h5", mode = "r" )
+df = store.select("data")
+
+#combine setup 
+export SCRAM_ARCH=slc7_amd64_gcc700
+cmsrel CMSSW_10_2_13
+cd CMSSW_10_2_13/src
+cmsenv
+cd HiggsAnalysis/CombinedLimit
+scramv1 b clean; scramv1 b
+
+text2workspace.py combine.txt -o=combine.root
+
+#chain
+#karim CMSSW_standard
+python scripts/generateSubmitScripts.py -n 25000 --mode Evaluation -c configs/evaluate_bsm_dnn.py -o /nfs/dust/cms/user/mmarz/NMSSM_friends/UL/friends/2018/27_8/?dR_?AK_?Vars/???_?dR_?AK_?Vars -s ??? --apply-selection True -m models/bsm_analysis_nodR_0AK.yml /nfs/dust/cms/user/mmarz/tuple/snape/incomplete/final_16_8/2018/*pythia8 /nfs/dust/cms/user/mmarz/tuple/snape/incomplete/final_16_8/2018/Signal*
+
+#hogwarts
+python analysis.py -a ../analyses/bsm_di_higgs/bsm_di_higgs_Analysis_DNN.py -o dnn/?dR_?AK_?Vars/???_?dR_?AK_?Vars --era 2018 
+
+#combine CMSSW_10_2_13
+combineCards.py *.txt > combine.txt
+for f in *.txt; do text2workspace.py $f -o $f.root;done
+@REM for f in *.txt.root; do combine $f -M FitDiagnostics -t -2 --expectSignal 1 --rMin=-5 --rMax=5 > $f.txt;done
+combine combine.txt.root -M AsymptoticLimits --run blind --rMin=0 --rMax=10 > limits.txt
+
+#limit plot
+habe Unsicherheiten aller einzelnen nodes in ???.txt.root.txt
+Limit für gesamte analyses limits.txt
+
+will ein plot mit den Unsicherheiten jeder nodes
+will einen plot mit Limits auf eine art von Training => 8 brazilian band plots / 7 davon mit baseline NN
+
+@REM single limits
+combineCards.py datacard__base_Wjet_dis.txt datacard__base_Zll_dis.txt datacard__base_hS_tautau.txt datacard__base_ttbar_dis.txt  > combine_hStautau.txt
+combineCards.py datacard__base_Wjet_dis.txt datacard__base_Zll_dis.txt datacard__base_hS_bb.txt datacard__base_ttbar_dis.txt  > combine_hSbb.txt
+text2workspace.py combine_hSbb.txt -o combine_hSbb.txt.root                                       
+text2workspace.py combine_hStautau.txt -o combine_hStautau.txt.root
+combine combine_hSbb.txt.root -M AsymptoticLimits --run blind --rMin=0 --rMax=10 > limits_hSbb.txt
+combine combine_hStautau.txt.root -M AsymptoticLimits --run blind --rMin=0 --rMax=10 > limits_hStautau.txt
+
+
+combineCards.py datacard__base_Wjet_dis.txt datacard__base_Zll_dis.txt datacard__base_hS_bb_res.txt datacard__base_hS_bb_bos.txt datacard__base_ttbar_dis.txt  > combine_hSbb.txt
